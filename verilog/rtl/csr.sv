@@ -9,7 +9,6 @@ module csr (
     input logic [0:0] meip,
     input logic [0:0] msip,
     input logic [0:0] mtip,
-    input logic [0:0] irpt,
     input logic [63:0] mtime
 );
   timeunit 1ns; timeprecision 1ps;
@@ -212,13 +211,6 @@ module csr (
         cause <= interrupt_mach_soft;
       end else begin
         csr_machine_reg.mip.msip <= 0;
-      end
-
-      if (irpt == 1) begin
-        csr_machine_reg.mip.meip <= 1;
-        cause <= interrupt_uart_extern;
-      end else begin
-        csr_machine_reg.mip.meip <= 0;
       end
 
       exception <= 0;
