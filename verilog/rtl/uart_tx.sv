@@ -70,7 +70,7 @@ module uart_tx #(
             v.ready_re = 1;
             v.data = {1'b1, uart_in.mem_wdata[7:0], 1'b0};
             v.state = 1;
-          end else if (|uart_in.mem_wstrb == 0 && uart_in.mem_addr == 4) begin
+          end else if (|uart_in.mem_wstrb == 0 && uart_in.mem_addr == 8) begin
             v.rdata_re = {8{v.ready}};
             v.ready_re = 1;
             v.ready = 0;

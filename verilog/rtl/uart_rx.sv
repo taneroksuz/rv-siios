@@ -48,7 +48,7 @@ module uart_rx #(
       if (uart_in.mem_addr == 0) begin
         v.rdata_re = v.data[8:1];
         v.ready_re = 1;
-      end else if (uart_in.mem_addr == 4) begin
+      end else if (uart_in.mem_addr == 8) begin
         v.rdata_re = {8{v.ready}};
         v.ready_re = 1;
         v.ready = 0;
