@@ -70,39 +70,39 @@ module soc (
 
     error_in.mem_valid = memory_in.mem_valid;
 
-    if (memory_in.mem_valid & ~|(rom_base_addr ^ (memory_in.mem_addr & ~rom_mask_addr))) begin
+    if (memory_in.mem_valid & ~|(ROM_BASE ^ (memory_in.mem_addr & ROM_MASK))) begin
       rom_in = memory_in;
-      base_addr = rom_base_addr;
+      base_addr = ROM_BASE;
       error_in.mem_valid = 0;
     end
-    if (memory_in.mem_valid & ~|(ram_base_addr ^ (memory_in.mem_addr & ~ram_mask_addr))) begin
+    if (memory_in.mem_valid & ~|(RAM_BASE ^ (memory_in.mem_addr & RAM_MASK))) begin
       ram_in = memory_in;
-      base_addr = ram_base_addr;
+      base_addr = RAM_BASE;
       error_in.mem_valid = 0;
     end
-    if (memory_in.mem_valid & ~|(tim_base_addr ^ (memory_in.mem_addr & ~tim_mask_addr))) begin
+    if (memory_in.mem_valid & ~|(TIM_BASE ^ (memory_in.mem_addr & TIM_MASK))) begin
       tim_in = memory_in;
-      base_addr = tim_base_addr;
+      base_addr = TIM_BASE;
       error_in.mem_valid = 0;
     end
-    if (memory_in.mem_valid & ~|(spi_base_addr ^ (memory_in.mem_addr & ~spi_mask_addr))) begin
+    if (memory_in.mem_valid & ~|(SPI_BASE ^ (memory_in.mem_addr & SPI_MASK))) begin
       spi_in = memory_in;
-      base_addr = spi_base_addr;
+      base_addr = SPI_BASE;
       error_in.mem_valid = 0;
     end
-    if (memory_in.mem_valid & ~|(clint_base_addr ^ (memory_in.mem_addr & ~clint_mask_addr))) begin
+    if (memory_in.mem_valid & ~|(CLINT_BASE ^ (memory_in.mem_addr & CLINT_MASK))) begin
       clint_in = memory_in;
-      base_addr = clint_base_addr;
+      base_addr = CLINT_BASE;
       error_in.mem_valid = 0;
     end
-    if (memory_in.mem_valid & ~|(uart_rx_base_addr ^ (memory_in.mem_addr & ~uart_rx_mask_addr))) begin
+    if (memory_in.mem_valid & ~|(UART_RX_BASE ^ (memory_in.mem_addr & UART_RX_MASK))) begin
       uart_rx_in = memory_in;
-      base_addr = uart_rx_base_addr;
+      base_addr = UART_RX_BASE;
       error_in.mem_valid = 0;
     end
-    if (memory_in.mem_valid & ~|(uart_tx_base_addr ^ (memory_in.mem_addr & ~uart_tx_mask_addr))) begin
+    if (memory_in.mem_valid & ~|(UART_TX_BASE ^ (memory_in.mem_addr & UART_TX_MASK))) begin
       uart_tx_in = memory_in;
-      base_addr = uart_tx_base_addr;
+      base_addr = UART_TX_BASE;
       error_in.mem_valid = 0;
     end
 
@@ -195,7 +195,7 @@ module soc (
   );
 
   clint #(
-      .clock_rate(clk_divider_rtc)
+      .clock_rate(CLK_DIVIDER_RTC)
   ) clint_comp (
       .reset(reset),
       .clock(clock),
@@ -207,7 +207,7 @@ module soc (
   );
 
   spi #(
-      .clock_rate(clk_divider_per)
+      .clock_rate(CLK_DIVIDER_PER)
   ) spi_comp (
       .reset(reset),
       .clock(clock),
@@ -220,7 +220,7 @@ module soc (
   );
 
   uart_rx #(
-      .clock_rate(clk_divider_bit)
+      .clock_rate(CLK_DIVIDER_BIT)
   ) uart_rx_comp (
       .reset(reset),
       .clock(clock),
@@ -231,7 +231,7 @@ module soc (
   );
 
   uart_tx #(
-      .clock_rate(clk_divider_bit)
+      .clock_rate(CLK_DIVIDER_BIT)
   ) uart_tx_comp (
       .reset(reset),
       .clock(clock),

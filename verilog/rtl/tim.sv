@@ -3,8 +3,8 @@ package tim_wires;
 
   import configure::*;
 
-  localparam depth = $clog2(tim_depth);
-  localparam width = $clog2(tim_width);
+  localparam depth = $clog2(TIM_DEPTH);
+  localparam width = $clog2(TIM_WIDTH);
 
   typedef struct packed {
     logic [0 : 0] en;
@@ -15,8 +15,8 @@ package tim_wires;
 
   typedef struct packed {logic [31 : 0] data;} tim_ram_out_type;
 
-  typedef tim_ram_in_type tim_vec_in_type[tim_width];
-  typedef tim_ram_out_type tim_vec_out_type[tim_width];
+  typedef tim_ram_in_type tim_vec_in_type[TIM_WIDTH];
+  typedef tim_ram_out_type tim_vec_out_type[TIM_WIDTH];
 
   localparam tim_vec_in_type init_tim_vec_in = '{default: 0};
   localparam tim_vec_out_type init_tim_vec_out = '{default: 0};
@@ -34,14 +34,14 @@ module tim_ram (
 );
   timeunit 1ns; timeprecision 1ps;
 
-  localparam depth = $clog2(tim_depth);
-  localparam width = $clog2(tim_width);
+  localparam depth = $clog2(TIM_DEPTH);
+  localparam width = $clog2(TIM_WIDTH);
 
   generate
 
-    if (ram_type == 0) begin
+    if (RAM_TYPE == 0) begin
 
-      logic [31 : 0] tim_ram[0:tim_depth-1] = '{default: '0};
+      logic [31 : 0] tim_ram[0:TIM_DEPTH-1] = '{default: '0};
 
       always_ff @(posedge clock) begin
         if (tim_ram_in.en == 1) begin
@@ -55,9 +55,9 @@ module tim_ram (
 
     end
 
-    if (ram_type == 1) begin
+    if (RAM_TYPE == 1) begin
 
-      logic [3 : 0][7 : 0] tim_ram[0:tim_depth-1] = '{default: '0};
+      logic [3 : 0][7 : 0] tim_ram[0:TIM_DEPTH-1] = '{default: '0};
 
       always_ff @(posedge clock) begin
         if (tim_ram_in.strb[0]) tim_ram[tim_ram_in.addr][0] <= tim_ram_in.data[7:0];
@@ -83,8 +83,8 @@ module tim_ctrl (
 );
   timeunit 1ns; timeprecision 1ps;
 
-  localparam depth = $clog2(tim_depth);
-  localparam width = $clog2(tim_width);
+  localparam depth = $clog2(TIM_DEPTH);
+  localparam width = $clog2(TIM_WIDTH);
 
   typedef struct packed {
     logic [width-1:0] wid;
@@ -155,7 +155,7 @@ module tim (
 
     genvar i;
 
-    for (i = 0; i < tim_width; i = i + 1) begin : tim_ram
+    for (i = 0; i < TIM_WIDTH; i = i + 1) begin : tim_ram
       tim_ram tim_ram_comp (
           .clock(clock),
           .tim_ram_in(dvec_in[i]),

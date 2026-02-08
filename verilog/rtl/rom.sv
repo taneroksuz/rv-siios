@@ -14,7 +14,7 @@ module rom (
 
   generate
 
-    if (hardware == 0) begin : rom_simulation
+    if (HARDWARE == 0) begin : rom_simulation
 
       logic [4 : 0] raddr;
 
@@ -59,7 +59,7 @@ module rom (
 
     end
 
-    if (hardware == 1) begin : rom_hardware
+    if (HARDWARE == 1) begin : rom_hardware
 
       logic [5 : 0] raddr;
 

@@ -101,7 +101,7 @@ module cpu (
       .div_out(div_out)
   );
 
-  mul #(mul_performance) mul_comp (
+  mul #(MUL_PERFORMANCE) mul_comp (
       .reset  (reset),
       .clock  (clock),
       .mul_in (mul_in),

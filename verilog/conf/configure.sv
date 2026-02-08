@@ -1,49 +1,47 @@
 package configure;
   timeunit 1ns; timeprecision 1ps;
 
-  parameter hardware = 0;
+  parameter HARDWARE = 0;
 
-  parameter mul_performance = 1;
+  parameter MUL_PERFORMANCE = 1;
 
-  parameter buffer_depth = 4;
+  parameter BUFFER_DEPTH = 4;
 
-  parameter tim_width = 32;
-  parameter tim_depth = 8192;
+  parameter TIM_WIDTH = 32;
+  parameter TIM_DEPTH = 8192;
 
-  parameter ram_depth = 262144;
+  parameter RAM_DEPTH = 262144;
 
-  parameter ram_type = 0;
+  parameter RAM_TYPE = 0;
 
-  parameter rom_base_addr = 32'h00;
-  parameter rom_mask_addr = 32'h7F;
+  parameter ROM_BASE = 32'h00000000;
+  parameter ROM_MASK = 32'hFFFFFF80;
 
-  parameter spi_base_addr = 32'h100000;
-  parameter spi_mask_addr = 32'h0FFFFF;
+  parameter SPI_BASE = 32'h00100000;
+  parameter SPI_MASK = 32'hFFF00000;
 
-  parameter uart_tx_base_addr = 32'h1000000;
-  parameter uart_tx_irq_addr = 32'h1000008;
-  parameter uart_tx_mask_addr = 32'h000000F;
+  parameter UART_TX_BASE = 32'h01000000;
+  parameter UART_TX_MASK = 32'hFFFFFFF0;
 
-  parameter uart_rx_base_addr = 32'h1000010;
-  parameter uart_rx_irq_addr = 32'h1000018;
-  parameter uart_rx_mask_addr = 32'h000000F;
+  parameter UART_RX_BASE = 32'h01000010;
+  parameter UART_RX_MASK = 32'hFFFFFFF0;
 
-  parameter clint_base_addr = 32'h2000000;
-  parameter clint_mask_addr = 32'h000FFFF;
+  parameter CLINT_BASE = 32'h02000000;
+  parameter CLINT_MASK = 32'hFFF00000;
 
-  parameter tim_base_addr = 32'h10000000;
-  parameter tim_mask_addr = 32'h000FFFFF;
+  parameter TIM_BASE = 32'h10000000;
+  parameter TIM_MASK = 32'hFFF00000;
 
-  parameter ram_base_addr = 32'h80000000;
-  parameter ram_mask_addr = 32'h000FFFFF;
+  parameter RAM_BASE = 32'h80000000;
+  parameter RAM_MASK = 32'hFFF00000;
 
-  parameter cpu_freq = 1000000000;  // 1GHz
-  parameter per_freq = 200000000;  // 200MHz
-  parameter rtc_freq = 1000000;  // 1MHz
-  parameter baudrate = 115200;
+  parameter CPU_FREQ = 1000000000;  // 1GHz
+  parameter PER_FREQ = 200000000;  // 200MHz
+  parameter RTC_FREQ = 1000000;  // 1MHz
+  parameter BAUDRATE = 115200;
 
-  parameter clk_divider_per = cpu_freq / per_freq;
-  parameter clk_divider_rtc = cpu_freq / rtc_freq;
-  parameter clk_divider_bit = cpu_freq / baudrate;
+  parameter CLK_DIVIDER_PER = CPU_FREQ / PER_FREQ;
+  parameter CLK_DIVIDER_RTC = CPU_FREQ / RTC_FREQ;
+  parameter CLK_DIVIDER_BIT = CPU_FREQ / BAUDRATE;
 
 endpackage

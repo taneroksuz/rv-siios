@@ -2,7 +2,7 @@ import configure::*;
 import wires::*;
 
 module mul #(
-    parameter mul_performance = 1
+    parameter MUL_PERFORMANCE = 1
 ) (
     input logic reset,
     input logic clock,
@@ -26,7 +26,7 @@ module mul #(
 
   generate
 
-    if (mul_performance == 0) begin
+    if (MUL_PERFORMANCE == 0) begin
 
       always_comb begin
 
@@ -109,7 +109,7 @@ module mul #(
 
       end
 
-    end else if (mul_performance == 1) begin
+    end else if (MUL_PERFORMANCE == 1) begin
 
       always_comb begin
 
