@@ -19,6 +19,7 @@ read_verilog -sv ../../verilog/rtl/forwarding.sv
 read_verilog -sv ../../verilog/rtl/fetch_stage.sv
 read_verilog -sv ../../verilog/rtl/execute_stage.sv
 read_verilog -sv ../../verilog/rtl/arbiter.sv
+read_verilog -sv ../../verilog/rtl/bus.sv
 read_verilog -sv ../../verilog/rtl/cdc.sv
 read_verilog -sv ../../verilog/rtl/clint.sv
 read_verilog -sv ../../verilog/rtl/tim.sv

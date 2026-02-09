@@ -41,6 +41,7 @@ $VERILATOR --binary --trace --trace-structs --top-module testbench -Wno-UNOPTFLA
             $BASEDIR/verilog/rtl/fetch_stage.sv \
             $BASEDIR/verilog/rtl/execute_stage.sv \
             $BASEDIR/verilog/rtl/arbiter.sv \
+            $BASEDIR/verilog/rtl/bus.sv \
             $BASEDIR/verilog/rtl/cdc.sv \
             $BASEDIR/verilog/rtl/clint.sv \
             $BASEDIR/verilog/rtl/tim.sv \
