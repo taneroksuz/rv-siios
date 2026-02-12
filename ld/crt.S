@@ -16,7 +16,7 @@ _start:
   csrw    mtvec, t0
 
   la t0, __load_start_text
-  la t1, __load_stop_text
+  la t1, __load_stop_bss
 
   la t2, __tim_start
   la t3, __tim_end

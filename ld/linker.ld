@@ -27,10 +27,32 @@ SECTIONS
     .text
     {
       *(.text*)
+      . = ALIGN(8);
+    }
+  } >tim AT>ram
+
+  OVERLAY :
+  {
+    .rodata
+    {
       *(.rodata*)
       *(.srodata*)
+    }
+  } >tim AT>ram
+
+  OVERLAY :
+  {
+    .data
+    {
       *(.data*)
       *(.sdata*)
+    }
+  } >tim AT>ram
+
+  OVERLAY :
+  {
+    .bss
+    {
       *(.bss*)
       *(.sbss*)
       _end = .;
