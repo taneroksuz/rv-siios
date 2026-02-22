@@ -3,12 +3,12 @@ package tim_wires;
 
   import configure::*;
 
-  localparam depth = $clog2(TIM_DEPTH);
-  localparam width = $clog2(TIM_WIDTH);
+  localparam DEPTH = $clog2(TIM_DEPTH);
+  localparam WIDTH = $clog2(TIM_WIDTH);
 
   typedef struct packed {
     logic [0 : 0] en;
-    logic [depth-1 : 0] addr;
+    logic [DEPTH-1 : 0] addr;
     logic [3 : 0] strb;
     logic [31 : 0] data;
   } tim_ram_in_type;
@@ -34,8 +34,8 @@ module tim_ram (
 );
   timeunit 1ns; timeprecision 1ps;
 
-  localparam depth = $clog2(TIM_DEPTH);
-  localparam width = $clog2(TIM_WIDTH);
+  localparam DEPTH = $clog2(TIM_DEPTH);
+  localparam WIDTH = $clog2(TIM_WIDTH);
 
   generate
 
@@ -83,12 +83,12 @@ module tim_ctrl (
 );
   timeunit 1ns; timeprecision 1ps;
 
-  localparam depth = $clog2(TIM_DEPTH);
-  localparam width = $clog2(TIM_WIDTH);
+  localparam DEPTH = $clog2(TIM_DEPTH);
+  localparam WIDTH = $clog2(TIM_WIDTH);
 
   typedef struct packed {
-    logic [width-1:0] wid;
-    logic [depth-1:0] did;
+    logic [WIDTH-1:0] wid;
+    logic [DEPTH-1:0] did;
     logic [31:0] data;
     logic [3:0] strb;
     logic [0:0] valid;
@@ -110,8 +110,8 @@ module tim_ctrl (
       v.valid = tim_in.mem_valid;
       v.strb  = tim_in.mem_wstrb;
       v.data  = tim_in.mem_wdata;
-      v.did   = tim_in.mem_addr[(depth+width+1):(width+2)];
-      v.wid   = tim_in.mem_addr[(width+1):2];
+      v.did   = tim_in.mem_addr[(DEPTH+WIDTH+1):(WIDTH+2)];
+      v.wid   = tim_in.mem_addr[(WIDTH+1):2];
     end
 
     dvec_in = init_tim_vec_in;

@@ -1,9 +1,7 @@
 import configure::*;
 import wires::*;
 
-module ram #(
-    parameter clock_rate
-) (
+module ram (
     input logic reset,
     input logic clock,
     input mem_in_type ram_in,
@@ -11,9 +9,7 @@ module ram #(
 );
   timeunit 1ns; timeprecision 1ps;
 
-  localparam full = clock_rate - 1;
-
-  localparam depth = $clog2(RAM_DEPTH);
+  localparam DEPTH = $clog2(RAM_DEPTH);
 
   logic [31 : 0] ram_block[0:RAM_DEPTH-1];
 
@@ -30,15 +26,15 @@ module ram #(
     if (ram_in.mem_valid == 1) begin
 
       if (ram_in.mem_wstrb[0] == 1)
-        ram_block[ram_in.mem_addr[(depth+1):2]][7:0] <= ram_in.mem_wdata[7:0];
+        ram_block[ram_in.mem_addr[(DEPTH+1):2]][7:0] <= ram_in.mem_wdata[7:0];
       if (ram_in.mem_wstrb[1] == 1)
-        ram_block[ram_in.mem_addr[(depth+1):2]][15:8] <= ram_in.mem_wdata[15:8];
+        ram_block[ram_in.mem_addr[(DEPTH+1):2]][15:8] <= ram_in.mem_wdata[15:8];
       if (ram_in.mem_wstrb[2] == 1)
-        ram_block[ram_in.mem_addr[(depth+1):2]][23:16] <= ram_in.mem_wdata[23:16];
+        ram_block[ram_in.mem_addr[(DEPTH+1):2]][23:16] <= ram_in.mem_wdata[23:16];
       if (ram_in.mem_wstrb[3] == 1)
-        ram_block[ram_in.mem_addr[(depth+1):2]][31:24] <= ram_in.mem_wdata[31:24];
+        ram_block[ram_in.mem_addr[(DEPTH+1):2]][31:24] <= ram_in.mem_wdata[31:24];
 
-      mem_out.mem_rdata <= ram_block[ram_in.mem_addr[(depth+1):2]];
+      mem_out.mem_rdata <= ram_block[ram_in.mem_addr[(DEPTH+1):2]];
       mem_out.mem_error <= 0;
       mem_out.mem_ready <= 1;
 

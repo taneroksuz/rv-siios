@@ -3,15 +3,15 @@ package buffer_wires;
 
   import configure::*;
 
-  localparam depth = $clog2(BUFFER_DEPTH);
+  localparam DEPTH = $clog2(BUFFER_DEPTH);
 
   typedef struct packed {
     logic [0 : 0] wen0;
     logic [0 : 0] wen1;
-    logic [depth-1 : 0] waddr0;
-    logic [depth-1 : 0] waddr1;
-    logic [depth-1 : 0] raddr0;
-    logic [depth-1 : 0] raddr1;
+    logic [DEPTH-1 : 0] waddr0;
+    logic [DEPTH-1 : 0] waddr1;
+    logic [DEPTH-1 : 0] raddr0;
+    logic [DEPTH-1 : 0] raddr1;
     logic [48 : 0] wdata0;
     logic [48 : 0] wdata1;
   } buffer_reg_in_type;
@@ -35,7 +35,7 @@ module buffer_reg (
 );
   timeunit 1ns; timeprecision 1ps;
 
-  localparam depth = $clog2(BUFFER_DEPTH);
+  localparam DEPTH = $clog2(BUFFER_DEPTH);
 
   logic [48:0] buffer_reg_array0[0:BUFFER_DEPTH-1] = '{default: '0};
   logic [48:0] buffer_reg_array1[0:BUFFER_DEPTH-1] = '{default: '0};
@@ -77,17 +77,17 @@ module buffer_ctrl (
 );
   timeunit 1ns; timeprecision 1ps;
 
-  localparam depth = $clog2(BUFFER_DEPTH);
+  localparam DEPTH = $clog2(BUFFER_DEPTH);
   localparam total = 2 * (BUFFER_DEPTH - 2);
 
-  localparam [depth-1:0] one = 1;
+  localparam [DEPTH-1:0] one = 1;
 
   typedef struct packed {
-    logic [depth : 0] wid;
-    logic [depth : 0] rid;
-    logic [depth : 0] diff;
-    logic [depth : 0] count;
-    logic [depth : 0] align;
+    logic [DEPTH : 0] wid;
+    logic [DEPTH : 0] rid;
+    logic [DEPTH : 0] diff;
+    logic [DEPTH : 0] count;
+    logic [DEPTH : 0] align;
     logic [48 : 0] wdata0;
     logic [48 : 0] wdata1;
     logic [48 : 0] rdata0;
@@ -136,8 +136,8 @@ module buffer_ctrl (
     end
 
     if (r.clear == 1 && buffer_in.clear == 0 && buffer_in.ready == 1) begin
-      v.rid   = {{depth{1'b0}}, buffer_in.pc[1]};
-      v.align = {{depth{1'b0}}, buffer_in.pc[1]};
+      v.rid   = {{DEPTH{1'b0}}, buffer_in.pc[1]};
+      v.align = {{DEPTH{1'b0}}, buffer_in.pc[1]};
       v.clear = 0;
     end
 
@@ -148,17 +148,17 @@ module buffer_ctrl (
 
     buffer_reg_in.wen0 = v.wen;
     buffer_reg_in.wen1 = v.wen;
-    buffer_reg_in.waddr0 = v.wid[depth:1];
-    buffer_reg_in.waddr1 = v.wid[depth:1];
+    buffer_reg_in.waddr0 = v.wid[DEPTH:1];
+    buffer_reg_in.waddr1 = v.wid[DEPTH:1];
     buffer_reg_in.wdata0 = v.wdata0;
     buffer_reg_in.wdata1 = v.wdata1;
 
     if (v.rid[0] == 0) begin
-      buffer_reg_in.raddr0 = v.rid[depth:1];
-      buffer_reg_in.raddr1 = v.rid[depth:1];
+      buffer_reg_in.raddr0 = v.rid[DEPTH:1];
+      buffer_reg_in.raddr1 = v.rid[DEPTH:1];
     end else begin
-      buffer_reg_in.raddr0 = v.rid[depth:1] + one;
-      buffer_reg_in.raddr1 = v.rid[depth:1];
+      buffer_reg_in.raddr0 = v.rid[DEPTH:1] + one;
+      buffer_reg_in.raddr1 = v.rid[DEPTH:1];
     end
 
     if (v.rid[0] == 0) begin
