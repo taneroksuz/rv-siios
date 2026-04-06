@@ -27,7 +27,7 @@ package configure;
   parameter UART_RX_MASK = 32'hFFFFFFF0;
 
   parameter CLINT_BASE = 32'h02000000;
-  parameter CLINT_MASK = 32'hFFF00000;
+  parameter CLINT_MASK = 32'hFFFF0000;
 
   parameter TIM_BASE = 32'h10000000;
   parameter TIM_MASK = 32'hFFF00000;
