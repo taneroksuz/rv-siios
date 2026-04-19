@@ -41,10 +41,7 @@ module fetch_stage (
     v.valid = 0;
     v.stall = buffer_out.stall;
 
-    v.spec = clear | csr_out.trap
-                   | csr_out.mret
-                   | d.f.instr.op.jump
-                   | a.e.instr.op.fence;
+    v.spec = clear | csr_out.trap | csr_out.mret | d.f.instr.op.jump | a.e.instr.op.fence;
     v.mode = csr_out.mode;
 
     v.rdata = imem_out.mem_rdata;
@@ -68,17 +65,17 @@ module fetch_stage (
     endcase
 
     if (clear == 1) begin
-      v.addr  = 0;
+      v.addr = 0;
     end else if (csr_out.trap == 1) begin
-      v.addr  = csr_out.mtvec;
+      v.addr = csr_out.mtvec;
     end else if (csr_out.mret == 1) begin
-      v.addr  = csr_out.mepc;
+      v.addr = csr_out.mepc;
     end else if (d.f.instr.op.jump == 1) begin
-      v.addr  = d.f.instr.address;
+      v.addr = d.f.instr.address;
     end else if (a.e.instr.op.fence == 1) begin
-      v.addr  = a.e.instr.npc;
+      v.addr = a.e.instr.npc;
     end else if (v.stall == 0) begin
-      v.addr  = v.addr + 4;
+      v.addr = v.addr + 4;
     end
 
     case (v.state)
