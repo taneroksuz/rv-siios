@@ -491,34 +491,38 @@ package wires;
     logic [0 : 0] stall;
   } fetch_out_type;
 
+  typedef enum bit [1:0] {
+    IDLE,
+    BUSY,
+    INVALID
+  } fetch_state;
+
   typedef struct packed {
     instruction_type instr;
+    fetch_state state;
     logic [31 : 0] addr;
     logic [31 : 0] rdata;
     logic [0 : 0] error;
     logic [0 : 0] ready;
-    logic [0 : 0] fence;
     logic [0 : 0] spec;
     logic [1 : 0] mode;
     logic [0 : 0] miss;
     logic [0 : 0] done;
-    logic [1 : 0] state;
     logic [0 : 0] valid;
     logic [0 : 0] stall;
   } fetch_reg_type;
 
   parameter fetch_reg_type init_fetch_reg = '{
       instr : init_instruction,
+      state : IDLE,
       addr : 0,
       rdata : 0,
       error : 0,
       ready : 0,
-      fence : 0,
       spec : 0,
       mode : m_mode,
       miss : 0,
       done : 0,
-      state : 0,
       valid : 0,
       stall : 0
   };
