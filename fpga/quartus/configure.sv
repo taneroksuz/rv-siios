@@ -1,50 +1,50 @@
 package configure;
   timeunit 1ns; timeprecision 1ps;
 
-  parameter HARDWARE = 1;
+  localparam HARDWARE = 1;
 
-  parameter MUL_PERFORMANCE = 1;
+  localparam MUL_PERFORMANCE = 1;
 
-  parameter BUFFER_DEPTH = 4;
+  localparam BUFFER_DEPTH = 4;
 
-  parameter TIM_WIDTH = 32;
-  parameter TIM_DEPTH = 1024;
+  localparam TIM_WIDTH = 32;
+  localparam TIM_DEPTH = 1024;
 
-  parameter RAM_DEPTH = 1;
+  localparam RAM_DEPTH = 1;
 
-  parameter RAM_TYPE = 1;
+  localparam RAM_TYPE = 1;
 
-  parameter ROM_BASE = 32'h00000000;
-  parameter ROM_MASK = 32'hFFFFFF00;
+  localparam ROM_BASE = 32'h00000000;
+  localparam ROM_MASK = 32'hFFFFFF00;
 
-  parameter SPI_BASE = 32'h00100000;
-  parameter SPI_MASK = 32'hFFF00000;
+  localparam SPI_BASE = 32'h00100000;
+  localparam SPI_MASK = 32'hFFF00000;
 
-  parameter UART_TX_BASE = 32'h01000000;
-  parameter UART_TX_MASK = 32'hFFFFFFF0;
+  localparam UART_TX_BASE = 32'h01000000;
+  localparam UART_TX_MASK = 32'hFFFFFFF0;
 
-  parameter UART_RX_BASE = 32'h01000010;
-  parameter UART_RX_MASK = 32'hFFFFFFF0;
+  localparam UART_RX_BASE = 32'h01000010;
+  localparam UART_RX_MASK = 32'hFFFFFFF0;
 
-  parameter CLINT_BASE = 32'h02000000;
-  parameter CLINT_MASK = 32'hFFFF0000;
+  localparam CLINT_BASE = 32'h02000000;
+  localparam CLINT_MASK = 32'hFFFF0000;
 
-  parameter TIM_BASE = 32'h10000000;
-  parameter TIM_MASK = 32'hFFF00000;
+  localparam TIM_BASE = 32'h10000000;
+  localparam TIM_MASK = 32'hFFF00000;
 
-  parameter RAM_BASE = 32'h80000000;
-  parameter RAM_MASK = 32'hFFF00000;
+  localparam RAM_BASE = 32'h80000000;
+  localparam RAM_MASK = 32'hFFF00000;
 
-  parameter SYS_FREQ = 50000000;  // 50MHz
+  localparam SYS_FREQ = 50000000;  // 50MHz
 
-  parameter CPU_FREQ = 25000000;  // 25MHz
-  parameter PER_FREQ = 5000000;   // 5MHz
-  parameter RTC_FREQ = 1000000;   // 1MHz
-  parameter BAUDRATE = 115200;
+  localparam CPU_FREQ = 25000000;  // 25MHz
+  localparam PER_FREQ = 5000000;   // 5MHz
+  localparam RTC_FREQ = 1000000;   // 1MHz
+  localparam BAUDRATE = 115200;
 
-  parameter CLK_DIVIDER_CPU = SYS_FREQ / CPU_FREQ;
-  parameter CLK_DIVIDER_PER = SYS_FREQ / PER_FREQ;
-  parameter CLK_DIVIDER_RTC = CPU_FREQ / RTC_FREQ;
-  parameter CLK_DIVIDER_BIT = CPU_FREQ / BAUDRATE;
+  localparam CLK_DIVIDER_CPU = SYS_FREQ / CPU_FREQ;
+  localparam CLK_DIVIDER_PER = SYS_FREQ / PER_FREQ;
+  localparam CLK_DIVIDER_RTC = CPU_FREQ / RTC_FREQ;
+  localparam CLK_DIVIDER_BIT = CPU_FREQ / BAUDRATE;
 
 endpackage
