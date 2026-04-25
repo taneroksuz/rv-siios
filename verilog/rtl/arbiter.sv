@@ -2,14 +2,14 @@ import wires::*;
 import constants::*;
 
 module arbiter (
-    input  logic        reset,
-    input  logic        clock,
-    input  mem_in_type  imem_in,
-    output mem_out_type imem_out,
-    input  mem_in_type  dmem_in,
-    output mem_out_type dmem_out,
-    output mem_in_type  mem_in,
-    input  mem_out_type mem_out
+  input  logic        reset,
+  input  logic        clock,
+  input  mem_in_type  imem_in,
+  output mem_out_type imem_out,
+  input  mem_in_type  dmem_in,
+  output mem_out_type dmem_out,
+  output mem_in_type  mem_in,
+  input  mem_out_type mem_out
 );
   timeunit 1ns; timeprecision 1ps;
 

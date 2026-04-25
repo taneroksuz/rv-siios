@@ -12,8 +12,6 @@ package configure;
 
   localparam RAM_DEPTH = 262144;
 
-  localparam RAM_TYPE = 0;
-
   localparam ROM_BASE = 32'h00000000;
   localparam ROM_MASK = 32'hFFFFFF80;
 

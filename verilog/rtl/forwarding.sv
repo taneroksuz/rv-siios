@@ -1,9 +1,9 @@
 import wires::*;
 
 module forwarding (
-    input  forwarding_register_in_type forwarding_rin,
-    input  forwarding_execute_in_type  forwarding_ein,
-    output forwarding_out_type         forwarding_out
+  input  forwarding_register_in_type forwarding_rin,
+  input  forwarding_execute_in_type  forwarding_ein,
+  output forwarding_out_type         forwarding_out
 );
   timeunit 1ns; timeprecision 1ps;
 

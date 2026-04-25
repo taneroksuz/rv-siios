@@ -2,14 +2,14 @@ import constants::*;
 import wires::*;
 
 module csr (
-    input  logic               reset,
-    input  logic               clock,
-    input  csr_in_type         csr_in,
-    output csr_out_type        csr_out,
-    input  logic        [ 0:0] meip,
-    input  logic        [ 0:0] msip,
-    input  logic        [ 0:0] mtip,
-    input  logic        [63:0] mtime
+  input  logic               reset,
+  input  logic               clock,
+  input  csr_in_type         csr_in,
+  output csr_out_type        csr_out,
+  input  logic        [ 0:0] meip,
+  input  logic        [ 0:0] msip,
+  input  logic        [ 0:0] mtip,
+  input  logic        [63:0] mtime
 );
   timeunit 1ns; timeprecision 1ps;
 
@@ -150,11 +150,11 @@ module csr (
             csr_machine_reg.mstatus.sie  <= csr_in.cwdata[1];
             csr_machine_reg.mstatus.uie  <= csr_in.cwdata[0];
           end
-          csr_mtvec: csr_machine_reg.mtvec <= csr_in.cwdata;
-          csr_mscratch: csr_machine_reg.mscratch <= csr_in.cwdata;
-          csr_mepc: csr_machine_reg.mepc <= csr_in.cwdata;
-          csr_mcause: csr_machine_reg.mcause <= csr_in.cwdata;
-          csr_mtval: csr_machine_reg.mtval <= csr_in.cwdata;
+          csr_mtvec:         csr_machine_reg.mtvec <= csr_in.cwdata;
+          csr_mscratch:      csr_machine_reg.mscratch <= csr_in.cwdata;
+          csr_mepc:          csr_machine_reg.mepc <= csr_in.cwdata;
+          csr_mcause:        csr_machine_reg.mcause <= csr_in.cwdata;
+          csr_mtval:         csr_machine_reg.mtval <= csr_in.cwdata;
           csr_mie: begin
             csr_machine_reg.mie.meie <= csr_in.cwdata[11];
             csr_machine_reg.mie.seie <= csr_in.cwdata[9];
@@ -174,13 +174,13 @@ module csr (
             csr_machine_reg.mip.ssip <= csr_in.cwdata[1];
             csr_machine_reg.mip.usip <= csr_in.cwdata[0];
           end
-          csr_mcycle: csr_machine_reg.mcycle[31:0] <= csr_in.cwdata;
-          csr_mcycleh: csr_machine_reg.mcycle[63:32] <= csr_in.cwdata;
-          csr_minstret: csr_machine_reg.minstret[31:0] <= csr_in.cwdata;
-          csr_minstreth: csr_machine_reg.minstret[63:32] <= csr_in.cwdata;
-          csr_mcounteren: csr_machine_reg.mcounteren <= csr_in.cwdata;
+          csr_mcycle:        csr_machine_reg.mcycle[31:0] <= csr_in.cwdata;
+          csr_mcycleh:       csr_machine_reg.mcycle[63:32] <= csr_in.cwdata;
+          csr_minstret:      csr_machine_reg.minstret[31:0] <= csr_in.cwdata;
+          csr_minstreth:     csr_machine_reg.minstret[63:32] <= csr_in.cwdata;
+          csr_mcounteren:    csr_machine_reg.mcounteren <= csr_in.cwdata;
           csr_mcountinhibit: csr_machine_reg.mcountinhibit <= csr_in.cwdata;
-          default: ;
+          default:           ;
         endcase
       end
 

@@ -2,8 +2,8 @@ import constants::*;
 import wires::*;
 
 module postdecoder (
-    input  postdecoder_in_type  postdecoder_in,
-    output postdecoder_out_type postdecoder_out
+  input  postdecoder_in_type  postdecoder_in,
+  output postdecoder_out_type postdecoder_out
 );
   timeunit 1ns; timeprecision 1ps;
 
@@ -227,11 +227,11 @@ module postdecoder (
         imm = imm_c;
         if (funct3 == 0) begin
           case (caddr)
-            csr_ecall: ecall = 1;
+            csr_ecall:  ecall = 1;
             csr_ebreak: ebreak = 1;
-            csr_mret: mret = 1;
-            csr_wfi: wfi = 1;
-            default: valid = 0;
+            csr_mret:   mret = 1;
+            csr_wfi:    wfi = 1;
+            default:    valid = 0;
           endcase
         end else if (funct3 == 1) begin
           wren         = nonzero_waddr;

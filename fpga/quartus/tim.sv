@@ -37,16 +37,51 @@ module tim_ram (
   localparam DEPTH = $clog2(TIM_DEPTH);
   localparam WIDTH = $clog2(TIM_WIDTH);
 
-  logic [31 : 0] tim_ram[0:TIM_DEPTH-1] = '{default: '0};
+  logic             we;
+  logic [      7:0] q0;
+  logic [      7:0] q1;
+  logic [      7:0] q2;
+  logic [      7:0] q3;
+  logic [      7:0] d0;
+  logic [      7:0] d1;
+  logic [      7:0] d2;
+  logic [      7:0] d3;
+  logic [      3:0] be;
+  logic [DEPTH-1:0] addr;
+
+  assign we               = tim_ram_in.en && (|tim_ram_in.strb);
+  assign d0               = tim_ram_in.data[7:0];
+  assign d1               = tim_ram_in.data[15:8];
+  assign d2               = tim_ram_in.data[23:16];
+  assign d3               = tim_ram_in.data[31:24];
+  assign be               = tim_ram_in.strb;
+  assign addr             = tim_ram_in.addr;
+
+  assign tim_ram_out.data = {q3, q2, q1, q0};
+
+  logic [7:0] mem0[0:TIM_DEPTH-1]  /* synthesis ramstyle = "no_rw_check" */;
+  logic [7:0] mem1[0:TIM_DEPTH-1]  /* synthesis ramstyle = "no_rw_check" */;
+  logic [7:0] mem2[0:TIM_DEPTH-1]  /* synthesis ramstyle = "no_rw_check" */;
+  logic [7:0] mem3[0:TIM_DEPTH-1]  /* synthesis ramstyle = "no_rw_check" */;
 
   always_ff @(posedge clock) begin
-    if (tim_ram_in.en == 1) begin
-      if (tim_ram_in.strb[0]) tim_ram[tim_ram_in.addr][7:0] <= tim_ram_in.data[7:0];
-      if (tim_ram_in.strb[1]) tim_ram[tim_ram_in.addr][15:8] <= tim_ram_in.data[15:8];
-      if (tim_ram_in.strb[2]) tim_ram[tim_ram_in.addr][23:16] <= tim_ram_in.data[23:16];
-      if (tim_ram_in.strb[3]) tim_ram[tim_ram_in.addr][31:24] <= tim_ram_in.data[31:24];
-      tim_ram_out.data <= tim_ram[tim_ram_in.addr];
-    end
+    if (we && be[0]) mem0[addr] <= d0;
+    q0 <= mem0[addr];
+  end
+
+  always_ff @(posedge clock) begin
+    if (we && be[1]) mem1[addr] <= d1;
+    q1 <= mem1[addr];
+  end
+
+  always_ff @(posedge clock) begin
+    if (we && be[2]) mem2[addr] <= d2;
+    q2 <= mem2[addr];
+  end
+
+  always_ff @(posedge clock) begin
+    if (we && be[3]) mem3[addr] <= d3;
+    q3 <= mem3[addr];
   end
 
 endmodule

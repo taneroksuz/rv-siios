@@ -12,8 +12,6 @@ package configure;
 
   localparam RAM_DEPTH = 1;
 
-  localparam RAM_TYPE = 0;
-
   localparam ROM_BASE = 32'h00000000;
   localparam ROM_MASK = 32'hFFFFFF00;
 
@@ -35,11 +33,11 @@ package configure;
   localparam RAM_BASE = 32'h80000000;
   localparam RAM_MASK = 32'hFFF00000;
 
-  localparam SYS_FREQ = 100000000; // 100MHz
+  localparam SYS_FREQ = 100000000;  // 100MHz
 
   localparam CPU_FREQ = 20000000;  // 20MHz
-  localparam PER_FREQ = 5000000;   // 5MHz
-  localparam RTC_FREQ = 1000000;   // 1MHz
+  localparam PER_FREQ = 5000000;  // 5MHz
+  localparam RTC_FREQ = 1000000;  // 1MHz
   localparam BAUDRATE = 115200;
 
   localparam CLK_DIVIDER_CPU = SYS_FREQ / CPU_FREQ;

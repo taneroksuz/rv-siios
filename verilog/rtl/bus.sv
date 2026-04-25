@@ -2,27 +2,27 @@ import configure::*;
 import wires::*;
 
 module bus (
-    input  logic        reset,
-    input  logic        clear,
-    input  logic        clock,
-    input  mem_in_type  imemory_in,
-    output mem_out_type imemory_out,
-    input  mem_in_type  dmemory_in,
-    output mem_out_type dmemory_out,
-    input  mem_out_type rom_out,
-    input  mem_out_type tim_out,
-    input  mem_out_type ram_out,
-    input  mem_out_type spi_out,
-    input  mem_out_type clint_out,
-    input  mem_out_type uart_rx_out,
-    input  mem_out_type uart_tx_out,
-    output mem_in_type  rom_in,
-    output mem_in_type  tim_in,
-    output mem_in_type  ram_in,
-    output mem_in_type  spi_in,
-    output mem_in_type  clint_in,
-    output mem_in_type  uart_rx_in,
-    output mem_in_type  uart_tx_in
+  input  logic        reset,
+  input  logic        clear,
+  input  logic        clock,
+  input  mem_in_type  imemory_in,
+  output mem_out_type imemory_out,
+  input  mem_in_type  dmemory_in,
+  output mem_out_type dmemory_out,
+  input  mem_out_type rom_out,
+  input  mem_out_type tim_out,
+  input  mem_out_type ram_out,
+  input  mem_out_type spi_out,
+  input  mem_out_type clint_out,
+  input  mem_out_type uart_rx_out,
+  input  mem_out_type uart_tx_out,
+  output mem_in_type  rom_in,
+  output mem_in_type  tim_in,
+  output mem_in_type  ram_in,
+  output mem_in_type  spi_in,
+  output mem_in_type  clint_in,
+  output mem_in_type  uart_rx_in,
+  output mem_in_type  uart_tx_in
 );
   timeunit 1ns; timeprecision 1ps;
 
@@ -136,14 +136,14 @@ module bus (
   end
 
   arbiter arbiter_comp (
-      .reset   (reset),
-      .clock   (clock),
-      .imem_in (imemory_in),
-      .imem_out(imemory_out),
-      .dmem_in (dmemory_in),
-      .dmem_out(dmemory_out),
-      .mem_in  (memory_in),
-      .mem_out (memory_out)
+    .reset   (reset),
+    .clock   (clock),
+    .imem_in (imemory_in),
+    .imem_out(imemory_out),
+    .dmem_in (dmemory_in),
+    .dmem_out(dmemory_out),
+    .mem_in  (memory_in),
+    .mem_out (memory_out)
   );
 
 endmodule
