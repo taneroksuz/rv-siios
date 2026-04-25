@@ -29,8 +29,8 @@ import wires::*;
 import buffer_wires::*;
 
 module buffer_reg (
-    input logic clock,
-    input buffer_reg_in_type buffer_reg_in,
+    input  logic               clock,
+    input  buffer_reg_in_type  buffer_reg_in,
     output buffer_reg_out_type buffer_reg_out
 );
   timeunit 1ns; timeprecision 1ps;
@@ -68,12 +68,12 @@ module buffer_reg (
 endmodule
 
 module buffer_ctrl (
-    input logic reset,
-    input logic clock,
-    input buffer_in_type buffer_in,
-    output buffer_out_type buffer_out,
-    input buffer_reg_out_type buffer_reg_out,
-    output buffer_reg_in_type buffer_reg_in
+    input  logic               reset,
+    input  logic               clock,
+    input  buffer_in_type      buffer_in,
+    output buffer_out_type     buffer_out,
+    input  buffer_reg_out_type buffer_reg_out,
+    output buffer_reg_in_type  buffer_reg_in
 );
   timeunit 1ns; timeprecision 1ps;
 
@@ -141,13 +141,13 @@ module buffer_ctrl (
       v.clear = 0;
     end
 
-    v.wen = (~buffer_in.clear) & (~r.stall) & buffer_in.ready;
+    v.wen                = (~buffer_in.clear) & (~r.stall) & buffer_in.ready;
 
-    v.wdata0 = {buffer_in.error, buffer_in.pc[31:2], 2'b00, buffer_in.rdata[15:0]};
-    v.wdata1 = {buffer_in.error, buffer_in.pc[31:2], 2'b10, buffer_in.rdata[31:16]};
+    v.wdata0             = {buffer_in.error, buffer_in.pc[31:2], 2'b00, buffer_in.rdata[15:0]};
+    v.wdata1             = {buffer_in.error, buffer_in.pc[31:2], 2'b10, buffer_in.rdata[31:16]};
 
-    buffer_reg_in.wen0 = v.wen;
-    buffer_reg_in.wen1 = v.wen;
+    buffer_reg_in.wen0   = v.wen;
+    buffer_reg_in.wen1   = v.wen;
     buffer_reg_in.waddr0 = v.wid[DEPTH:1];
     buffer_reg_in.waddr1 = v.wid[DEPTH:1];
     buffer_reg_in.wdata0 = v.wdata0;
@@ -174,31 +174,31 @@ module buffer_ctrl (
       v.count = v.count + 2;
     end
 
-    v.diff = 0;
+    v.diff  = 0;
 
-    v.comp = ~(&v.rdata0[1:0]);
+    v.comp  = ~(&v.rdata0[1:0]);
 
-    v.pc = 0;
+    v.pc    = 0;
     v.instr = 0;
     v.ready = 0;
     v.error = 0;
 
     if (v.comp == 1) begin
       if (v.count > v.align) begin
-        v.pc = v.rdata0[47:16];
+        v.pc    = v.rdata0[47:16];
         v.instr = {16'b0, v.rdata0[15:0]};
         v.ready = 1;
         v.error = v.rdata0[48];
-        v.diff = 1;
+        v.diff  = 1;
       end
     end
     if (v.comp == 0) begin
       if (v.count > v.align + 1) begin
-        v.pc = v.rdata0[47:16];
+        v.pc    = v.rdata0[47:16];
         v.instr = {v.rdata1[15:0], v.rdata0[15:0]};
         v.ready = 1;
         v.error = v.rdata1[48] | v.rdata0[48];
-        v.diff = 2;
+        v.diff  = 2;
       end
     end
 
@@ -217,13 +217,13 @@ module buffer_ctrl (
       v.stall = 1;
     end
 
-    buffer_out.pc = v.ready ? v.pc : 0;
+    buffer_out.pc    = v.ready ? v.pc : 0;
     buffer_out.instr = v.ready ? v.instr : 0;
-    buffer_out.miss = v.ready ? v.error : 0;
-    buffer_out.done = v.ready;
+    buffer_out.miss  = v.ready ? v.error : 0;
+    buffer_out.done  = v.ready;
     buffer_out.stall = ~v.wen;
 
-    rin = v;
+    rin              = v;
 
   end
 
@@ -238,9 +238,9 @@ module buffer_ctrl (
 endmodule
 
 module buffer (
-    input logic reset,
-    input logic clock,
-    input buffer_in_type buffer_in,
+    input  logic           reset,
+    input  logic           clock,
+    input  buffer_in_type  buffer_in,
     output buffer_out_type buffer_out
 );
   timeunit 1ns; timeprecision 1ps;
@@ -249,17 +249,17 @@ module buffer (
   buffer_reg_out_type buffer_reg_out;
 
   buffer_reg buffer_reg_comp (
-      .clock(clock),
-      .buffer_reg_in(buffer_reg_in),
+      .clock         (clock),
+      .buffer_reg_in (buffer_reg_in),
       .buffer_reg_out(buffer_reg_out)
   );
 
   buffer_ctrl buffer_ctrl_comp (
-      .reset(reset),
-      .clock(clock),
-      .buffer_in(buffer_in),
-      .buffer_out(buffer_out),
-      .buffer_reg_in(buffer_reg_in),
+      .reset         (reset),
+      .clock         (clock),
+      .buffer_in     (buffer_in),
+      .buffer_out    (buffer_out),
+      .buffer_reg_in (buffer_reg_in),
       .buffer_reg_out(buffer_reg_out)
   );
 

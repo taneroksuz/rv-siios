@@ -107,9 +107,9 @@ module predecoder (
         jalr  = 1;
       end
       opcode_branch: begin
-        imm = imm_b;
-        rden1 = 1;
-        rden2 = 1;
+        imm    = imm_b;
+        rden1  = 1;
+        rden2  = 1;
         branch = 1;
         case (funct3)
           funct_beq: bcu_op.bcu_beq = 1;
@@ -153,19 +153,19 @@ module predecoder (
     endcase
     ;
 
-    predecoder_out.imm = imm;
-    predecoder_out.wren = wren;
-    predecoder_out.rden1 = rden1;
-    predecoder_out.rden2 = rden2;
-    predecoder_out.auipc = auipc;
-    predecoder_out.jal = jal;
-    predecoder_out.jalr = jalr;
+    predecoder_out.imm    = imm;
+    predecoder_out.wren   = wren;
+    predecoder_out.rden1  = rden1;
+    predecoder_out.rden2  = rden2;
+    predecoder_out.auipc  = auipc;
+    predecoder_out.jal    = jal;
+    predecoder_out.jalr   = jalr;
     predecoder_out.branch = branch;
-    predecoder_out.load = load;
-    predecoder_out.store = store;
+    predecoder_out.load   = load;
+    predecoder_out.store  = store;
     predecoder_out.bcu_op = bcu_op;
     predecoder_out.lsu_op = lsu_op;
-    predecoder_out.valid = valid;
+    predecoder_out.valid  = valid;
 
   end
 

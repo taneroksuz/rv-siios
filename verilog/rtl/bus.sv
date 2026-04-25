@@ -2,27 +2,27 @@ import configure::*;
 import wires::*;
 
 module bus (
-    input logic reset,
-    input logic clear,
-    input logic clock,
-    input mem_in_type imemory_in,
+    input  logic        reset,
+    input  logic        clear,
+    input  logic        clock,
+    input  mem_in_type  imemory_in,
     output mem_out_type imemory_out,
-    input mem_in_type dmemory_in,
+    input  mem_in_type  dmemory_in,
     output mem_out_type dmemory_out,
-    input mem_out_type rom_out,
-    input mem_out_type tim_out,
-    input mem_out_type ram_out,
-    input mem_out_type spi_out,
-    input mem_out_type clint_out,
-    input mem_out_type uart_rx_out,
-    input mem_out_type uart_tx_out,
-    output mem_in_type rom_in,
-    output mem_in_type tim_in,
-    output mem_in_type ram_in,
-    output mem_in_type spi_in,
-    output mem_in_type clint_in,
-    output mem_in_type uart_rx_in,
-    output mem_in_type uart_tx_in
+    input  mem_out_type rom_out,
+    input  mem_out_type tim_out,
+    input  mem_out_type ram_out,
+    input  mem_out_type spi_out,
+    input  mem_out_type clint_out,
+    input  mem_out_type uart_rx_out,
+    input  mem_out_type uart_tx_out,
+    output mem_in_type  rom_in,
+    output mem_in_type  tim_in,
+    output mem_in_type  ram_in,
+    output mem_in_type  spi_in,
+    output mem_in_type  clint_in,
+    output mem_in_type  uart_rx_in,
+    output mem_in_type  uart_tx_in
 );
   timeunit 1ns; timeprecision 1ps;
 
@@ -37,66 +37,66 @@ module bus (
 
   always_comb begin
 
-    rom_in = init_mem_in;
-    ram_in = init_mem_in;
-    tim_in = init_mem_in;
-    spi_in = init_mem_in;
-    clint_in = init_mem_in;
-    error_in = init_mem_in;
-    uart_rx_in = init_mem_in;
-    uart_tx_in = init_mem_in;
+    rom_in             = init_mem_in;
+    ram_in             = init_mem_in;
+    tim_in             = init_mem_in;
+    spi_in             = init_mem_in;
+    clint_in           = init_mem_in;
+    error_in           = init_mem_in;
+    uart_rx_in         = init_mem_in;
+    uart_tx_in         = init_mem_in;
 
-    base_addr = 0;
+    base_addr          = 0;
 
     error_in.mem_valid = memory_in.mem_valid;
 
     if (memory_in.mem_valid & ~|(ROM_BASE ^ (memory_in.mem_addr & ROM_MASK))) begin
-      rom_in = memory_in;
-      base_addr = ROM_BASE;
+      rom_in             = memory_in;
+      base_addr          = ROM_BASE;
       error_in.mem_valid = 0;
     end
     if (memory_in.mem_valid & ~|(RAM_BASE ^ (memory_in.mem_addr & RAM_MASK))) begin
-      ram_in = memory_in;
-      base_addr = RAM_BASE;
+      ram_in             = memory_in;
+      base_addr          = RAM_BASE;
       error_in.mem_valid = 0;
     end
     if (memory_in.mem_valid & ~|(TIM_BASE ^ (memory_in.mem_addr & TIM_MASK))) begin
-      tim_in = memory_in;
-      base_addr = TIM_BASE;
+      tim_in             = memory_in;
+      base_addr          = TIM_BASE;
       error_in.mem_valid = 0;
     end
     if (memory_in.mem_valid & ~|(SPI_BASE ^ (memory_in.mem_addr & SPI_MASK))) begin
-      spi_in = memory_in;
-      base_addr = SPI_BASE;
+      spi_in             = memory_in;
+      base_addr          = SPI_BASE;
       error_in.mem_valid = 0;
     end
     if (memory_in.mem_valid & ~|(CLINT_BASE ^ (memory_in.mem_addr & CLINT_MASK))) begin
-      clint_in = memory_in;
-      base_addr = CLINT_BASE;
+      clint_in           = memory_in;
+      base_addr          = CLINT_BASE;
       error_in.mem_valid = 0;
     end
     if (memory_in.mem_valid & ~|(UART_RX_BASE ^ (memory_in.mem_addr & UART_RX_MASK))) begin
-      uart_rx_in = memory_in;
-      base_addr = UART_RX_BASE;
+      uart_rx_in         = memory_in;
+      base_addr          = UART_RX_BASE;
       error_in.mem_valid = 0;
     end
     if (memory_in.mem_valid & ~|(UART_TX_BASE ^ (memory_in.mem_addr & UART_TX_MASK))) begin
-      uart_tx_in = memory_in;
-      base_addr = UART_TX_BASE;
+      uart_tx_in         = memory_in;
+      base_addr          = UART_TX_BASE;
       error_in.mem_valid = 0;
     end
 
-    mem_addr = memory_in.mem_addr - base_addr;
+    mem_addr            = memory_in.mem_addr - base_addr;
 
-    rom_in.mem_addr = mem_addr;
-    ram_in.mem_addr = mem_addr;
-    tim_in.mem_addr = mem_addr;
-    spi_in.mem_addr = mem_addr;
-    clint_in.mem_addr = mem_addr;
+    rom_in.mem_addr     = mem_addr;
+    ram_in.mem_addr     = mem_addr;
+    tim_in.mem_addr     = mem_addr;
+    spi_in.mem_addr     = mem_addr;
+    clint_in.mem_addr   = mem_addr;
     uart_rx_in.mem_addr = mem_addr;
     uart_tx_in.mem_addr = mem_addr;
 
-    memory_out = init_mem_out;
+    memory_out          = init_mem_out;
 
     if (rom_out.mem_ready == 1) begin
       memory_out = rom_out;
@@ -136,14 +136,14 @@ module bus (
   end
 
   arbiter arbiter_comp (
-      .reset(reset),
-      .clock(clock),
-      .imem_in(imemory_in),
+      .reset   (reset),
+      .clock   (clock),
+      .imem_in (imemory_in),
       .imem_out(imemory_out),
-      .dmem_in(dmemory_in),
+      .dmem_in (dmemory_in),
       .dmem_out(dmemory_out),
-      .mem_in(memory_in),
-      .mem_out(memory_out)
+      .mem_in  (memory_in),
+      .mem_out (memory_out)
   );
 
 endmodule

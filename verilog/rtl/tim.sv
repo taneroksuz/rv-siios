@@ -28,8 +28,8 @@ import wires::*;
 import tim_wires::*;
 
 module tim_ram (
-    input logic clock,
-    input tim_ram_in_type tim_ram_in,
+    input  logic            clock,
+    input  tim_ram_in_type  tim_ram_in,
     output tim_ram_out_type tim_ram_out
 );
   timeunit 1ns; timeprecision 1ps;
@@ -74,12 +74,12 @@ module tim_ram (
 endmodule
 
 module tim_ctrl (
-    input logic reset,
-    input logic clock,
-    input tim_vec_out_type dvec_out,
-    output tim_vec_in_type dvec_in,
-    input mem_in_type tim_in,
-    output mem_out_type tim_out
+    input  logic            reset,
+    input  logic            clock,
+    input  tim_vec_out_type dvec_out,
+    output tim_vec_in_type  dvec_in,
+    input  mem_in_type      tim_in,
+    output mem_out_type     tim_out
 );
   timeunit 1ns; timeprecision 1ps;
 
@@ -101,10 +101,10 @@ module tim_ctrl (
 
   always_comb begin
 
-    v = r;
+    v       = r;
 
     v.valid = 0;
-    v.strb = 0;
+    v.strb  = 0;
 
     if (tim_in.mem_valid == 1) begin
       v.valid = tim_in.mem_valid;
@@ -114,19 +114,19 @@ module tim_ctrl (
       v.wid   = tim_in.mem_addr[(WIDTH+1):2];
     end
 
-    dvec_in = init_tim_vec_in;
+    dvec_in             = init_tim_vec_in;
 
     // Write data
-    dvec_in[v.wid].en = v.valid;
+    dvec_in[v.wid].en   = v.valid;
     dvec_in[v.wid].strb = v.strb;
     dvec_in[v.wid].addr = v.did;
     dvec_in[v.wid].data = v.data;
 
-    rin = v;
+    rin                 = v;
 
-    tim_out.mem_rdata = dvec_out[r.wid].data;
-    tim_out.mem_error = 0;
-    tim_out.mem_ready = r.valid;
+    tim_out.mem_rdata   = dvec_out[r.wid].data;
+    tim_out.mem_error   = 0;
+    tim_out.mem_ready   = r.valid;
 
   end
 
@@ -141,9 +141,9 @@ module tim_ctrl (
 endmodule
 
 module tim (
-    input logic reset,
-    input logic clock,
-    input mem_in_type tim_in,
+    input  logic        reset,
+    input  logic        clock,
+    input  mem_in_type  tim_in,
     output mem_out_type tim_out
 );
   timeunit 1ns; timeprecision 1ps;
@@ -157,8 +157,8 @@ module tim (
 
     for (i = 0; i < TIM_WIDTH; i = i + 1) begin : tim_ram
       tim_ram tim_ram_comp (
-          .clock(clock),
-          .tim_ram_in(dvec_in[i]),
+          .clock      (clock),
+          .tim_ram_in (dvec_in[i]),
           .tim_ram_out(dvec_out[i])
       );
     end
@@ -166,12 +166,12 @@ module tim (
   endgenerate
 
   tim_ctrl tim_ctrl_comp (
-      .reset(reset),
-      .clock(clock),
+      .reset   (reset),
+      .clock   (clock),
       .dvec_out(dvec_out),
-      .dvec_in(dvec_in),
-      .tim_in(tim_in),
-      .tim_out(tim_out)
+      .dvec_in (dvec_in),
+      .tim_in  (tim_in),
+      .tim_out (tim_out)
   );
 
 endmodule

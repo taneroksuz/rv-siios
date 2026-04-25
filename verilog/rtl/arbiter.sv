@@ -2,14 +2,14 @@ import wires::*;
 import constants::*;
 
 module arbiter (
-    input logic reset,
-    input logic clock,
-    input mem_in_type imem_in,
+    input  logic        reset,
+    input  logic        clock,
+    input  mem_in_type  imem_in,
     output mem_out_type imem_out,
-    input mem_in_type dmem_in,
+    input  mem_in_type  dmem_in,
     output mem_out_type dmem_out,
-    output mem_in_type mem_in,
-    input mem_out_type mem_out
+    output mem_in_type  mem_in,
+    input  mem_out_type mem_out
 );
   timeunit 1ns; timeprecision 1ps;
 
@@ -50,12 +50,12 @@ module arbiter (
     if (v.access_type == no_access) begin
       if (v.dmem_in.mem_valid == 1) begin
         v.access_type = data_access;
-        v.mem_in = v.dmem_in;
-        v.dmem_in = init_mem_in;
+        v.mem_in      = v.dmem_in;
+        v.dmem_in     = init_mem_in;
       end else if (v.imem_in.mem_valid == 1) begin
         v.access_type = instr_access;
-        v.mem_in = v.imem_in;
-        v.imem_in = init_mem_in;
+        v.mem_in      = v.imem_in;
+        v.imem_in     = init_mem_in;
       end
     end
 

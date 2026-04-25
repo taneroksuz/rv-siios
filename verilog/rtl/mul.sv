@@ -4,9 +4,9 @@ import wires::*;
 module mul #(
     parameter MUL_PERFORMANCE = 1
 ) (
-    input logic reset,
-    input logic clock,
-    input mul_in_type mul_in,
+    input  logic        reset,
+    input  logic        clock,
+    input  mul_in_type  mul_in,
     output mul_out_type mul_out
 );
   timeunit 1ns; timeprecision 1ps;
@@ -34,22 +34,22 @@ module mul #(
 
         case (r.counter)
           0: begin
-            v.op1 = mul_in.rdata1;
-            v.op2 = mul_in.rdata2;
-            v.op = mul_in.op;
+            v.op1        = mul_in.rdata1;
+            v.op2        = mul_in.rdata2;
+            v.op         = mul_in.op;
             v.op1_signed = v.op.muls | v.op.mulh | v.op.mulhsu;
             v.op2_signed = v.op.muls | v.op.mulh;
-            v.negativ = 0;
-            v.mult = v.op.muls | v.op.mulh | v.op.mulhsu | v.op.mulhu;
-            v.op1_neg = 0;
+            v.negativ    = 0;
+            v.mult       = v.op.muls | v.op.mulh | v.op.mulhsu | v.op.mulhu;
+            v.op1_neg    = 0;
             if (v.op1_signed == 1 && v.op1[31] == 1) begin
               v.negativ = ~v.negativ;
-              v.op1 = -v.op1;
+              v.op1     = -v.op1;
               v.op1_neg = 1;
             end
             if (v.op2_signed == 1 && v.op2[31] == 1) begin
               v.negativ = ~v.negativ;
-              v.op2 = -v.op2;
+              v.op2     = -v.op2;
             end
             v.counter = 0;
             for (int i = 31; i >= 0; i--) begin
@@ -90,9 +90,9 @@ module mul #(
                 v.result = v.result + {33'b0, v.op2};
               end
             end
-            v.counter = v.counter + 1;
+            v.counter      = v.counter + 1;
             mul_out.result = 0;
-            mul_out.ready = 0;
+            mul_out.ready  = 0;
           end
         endcase
 
@@ -113,9 +113,9 @@ module mul #(
 
       always_comb begin
 
-        op1 = {1'b0, mul_in.rdata1};
-        op2 = {1'b0, mul_in.rdata2};
-        op = mul_in.op;
+        op1        = {1'b0, mul_in.rdata1};
+        op2        = {1'b0, mul_in.rdata2};
+        op         = mul_in.op;
         op1_signed = op.muls | op.mulh | op.mulhsu;
         op2_signed = op.muls | op.mulh;
         if (op1_signed == 1) begin

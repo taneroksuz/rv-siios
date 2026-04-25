@@ -132,30 +132,30 @@ module compress (
       opcode_c0: begin
         case (funct3)
           c0_addispn: begin
-            imm = imm_w;
-            waddr = {2'b01, instr[4:2]};
-            raddr1 = 2;
-            wren = nonzero_imm_w;
-            rden1 = nonzero_imm_w;
+            imm            = imm_w;
+            waddr          = {2'b01, instr[4:2]};
+            raddr1         = 2;
+            wren           = nonzero_imm_w;
+            rden1          = nonzero_imm_w;
             alu_op.alu_add = nonzero_imm_w;
-            valid = nonzero_imm_w;
+            valid          = nonzero_imm_w;
           end
           c0_lw: begin
-            imm = imm_lswr;
-            waddr = {2'b01, instr[4:2]};
-            raddr1 = {2'b01, instr[9:7]};
-            wren = 1;
-            rden1 = 1;
-            load = 1;
+            imm           = imm_lswr;
+            waddr         = {2'b01, instr[4:2]};
+            raddr1        = {2'b01, instr[9:7]};
+            wren          = 1;
+            rden1         = 1;
+            load          = 1;
             lsu_op.lsu_lw = 1;
           end
           c0_sw: begin
-            imm = imm_lswr;
-            raddr1 = {2'b01, instr[9:7]};
-            raddr2 = {2'b01, instr[4:2]};
-            rden1 = 1;
-            rden2 = 1;
-            store = 1;
+            imm           = imm_lswr;
+            raddr1        = {2'b01, instr[9:7]};
+            raddr2        = {2'b01, instr[4:2]};
+            rden1         = 1;
+            rden2         = 1;
+            store         = 1;
             lsu_op.lsu_sw = 1;
           end
           default: valid = 0;
@@ -164,9 +164,9 @@ module compress (
       opcode_c1: begin
         case (funct3)
           c1_addi: begin
-            imm = imm_i;
-            wren = nonzero_imm_i;
-            rden1 = nonzero_imm_i;
+            imm            = imm_i;
+            wren           = nonzero_imm_i;
+            rden1          = nonzero_imm_i;
             alu_op.alu_add = nonzero_imm_i;
           end
           c1_jal: begin
@@ -176,17 +176,17 @@ module compress (
             jal   = 1;
           end
           c1_li: begin
-            imm = imm_i;
-            wren = 1;
+            imm            = imm_i;
+            wren           = 1;
             alu_op.alu_add = 1;
           end
           c1_lui: begin
             if (raddr1 == 2) begin
-              imm = imm_p;
-              wren = nonzero_imm_p;
-              rden1 = nonzero_imm_p;
+              imm            = imm_p;
+              wren           = nonzero_imm_p;
+              rden1          = nonzero_imm_p;
               alu_op.alu_add = nonzero_imm_p;
-              valid = nonzero_imm_p;
+              valid          = nonzero_imm_p;
             end else begin
               imm   = imm_u;
               wren  = nonzero_imm_u;
@@ -195,54 +195,54 @@ module compress (
             end
           end
           c1_alu: begin
-            imm = imm_i;
-            waddr[4:3] = 2'b01;
+            imm         = imm_i;
+            waddr[4:3]  = 2'b01;
             raddr1[4:3] = 2'b01;
             raddr2[4:3] = 2'b01;
             case (funct6)
               0: begin
-                imm = {27'b0, shamt};
-                wren = nonzero_shamt;
-                rden1 = nonzero_shamt;
+                imm            = {27'b0, shamt};
+                wren           = nonzero_shamt;
+                rden1          = nonzero_shamt;
                 alu_op.alu_srl = nonzero_shamt;
-                valid = nonzero_shamt;
+                valid          = nonzero_shamt;
               end
               1: begin
-                imm = {27'b0, shamt};
-                wren = nonzero_shamt;
-                rden1 = nonzero_shamt;
+                imm            = {27'b0, shamt};
+                wren           = nonzero_shamt;
+                rden1          = nonzero_shamt;
                 alu_op.alu_sra = nonzero_shamt;
-                valid = nonzero_shamt;
+                valid          = nonzero_shamt;
               end
               2: begin
-                wren = 1;
-                rden1 = 1;
+                wren           = 1;
+                rden1          = 1;
                 alu_op.alu_and = 1;
               end
               3: begin
                 case (funct9)
                   0: begin
-                    wren = 1;
-                    rden1 = 1;
-                    rden2 = 1;
+                    wren           = 1;
+                    rden1          = 1;
+                    rden2          = 1;
                     alu_op.alu_sub = 1;
                   end
                   1: begin
-                    wren = 1;
-                    rden1 = 1;
-                    rden2 = 1;
+                    wren           = 1;
+                    rden1          = 1;
+                    rden2          = 1;
                     alu_op.alu_xor = 1;
                   end
                   2: begin
-                    wren = 1;
-                    rden1 = 1;
-                    rden2 = 1;
+                    wren          = 1;
+                    rden1         = 1;
+                    rden2         = 1;
                     alu_op.alu_or = 1;
                   end
                   3: begin
-                    wren = 1;
-                    rden1 = 1;
-                    rden2 = 1;
+                    wren           = 1;
+                    rden1          = 1;
+                    rden2          = 1;
                     alu_op.alu_and = 1;
                   end
                   default: valid = 0;
@@ -258,21 +258,21 @@ module compress (
             jal   = 1;
           end
           c1_beqz: begin
-            imm = imm_b;
-            rden1 = 1;
-            rden2 = 1;
-            raddr1 = {2'b01, instr[9:7]};
-            raddr2 = 0;
-            branch = 1;
+            imm            = imm_b;
+            rden1          = 1;
+            rden2          = 1;
+            raddr1         = {2'b01, instr[9:7]};
+            raddr2         = 0;
+            branch         = 1;
             bcu_op.bcu_beq = 1;
           end
           c1_bnez: begin
-            imm = imm_b;
-            rden1 = 1;
-            rden2 = 1;
-            raddr1 = {2'b01, instr[9:7]};
-            raddr2 = 0;
-            branch = 1;
+            imm            = imm_b;
+            rden1          = 1;
+            rden2          = 1;
+            raddr1         = {2'b01, instr[9:7]};
+            raddr2         = 0;
+            branch         = 1;
             bcu_op.bcu_bne = 1;
           end
           default: valid = 0;
@@ -281,18 +281,18 @@ module compress (
       opcode_c2: begin
         case (funct3)
           c2_slli: begin
-            imm = {27'b0, shamt};
-            wren = nonzero_shamt;
-            rden1 = nonzero_shamt;
+            imm            = {27'b0, shamt};
+            wren           = nonzero_shamt;
+            rden1          = nonzero_shamt;
             alu_op.alu_sll = nonzero_shamt;
-            valid = nonzero_shamt;
+            valid          = nonzero_shamt;
           end
           c2_lwsp: begin
-            imm = imm_lwsp;
-            wren = 1;
-            rden1 = 1;
-            raddr1 = 2;
-            load = 1;
+            imm           = imm_lwsp;
+            wren          = 1;
+            rden1         = 1;
+            raddr1        = 2;
+            load          = 1;
             lsu_op.lsu_lw = 1;
           end
           c2_alu: begin
@@ -304,8 +304,8 @@ module compress (
                     waddr = 0;
                     jalr  = 1;
                   end else if (|raddr2 == 1) begin
-                    wren = 1;
-                    rden2 = 1;
+                    wren           = 1;
+                    rden2          = 1;
                     alu_op.alu_add = 1;
                   end
                 end
@@ -322,9 +322,9 @@ module compress (
                     waddr = 1;
                     jalr  = 1;
                   end else if (|raddr2 == 1) begin
-                    wren = 1;
-                    rden1 = 1;
-                    rden2 = 1;
+                    wren           = 1;
+                    rden1          = 1;
+                    rden2          = 1;
                     alu_op.alu_add = 1;
                   end
                 end
@@ -333,11 +333,11 @@ module compress (
             endcase
           end
           c2_swsp: begin
-            imm = imm_swsp;
-            rden1 = 1;
-            rden2 = 1;
-            raddr1 = 2;
-            store = 1;
+            imm           = imm_swsp;
+            rden1         = 1;
+            rden2         = 1;
+            raddr1        = 2;
+            store         = 1;
             lsu_op.lsu_sw = 1;
           end
           default: valid = 0;
@@ -346,24 +346,24 @@ module compress (
       default: valid = 0;
     endcase
 
-    compress_out.imm = imm;
-    compress_out.waddr = waddr;
+    compress_out.imm    = imm;
+    compress_out.waddr  = waddr;
     compress_out.raddr1 = raddr1;
     compress_out.raddr2 = raddr2;
-    compress_out.wren = wren;
-    compress_out.rden1 = rden1;
-    compress_out.rden2 = rden2;
-    compress_out.lui = lui;
-    compress_out.jal = jal;
-    compress_out.jalr = jalr;
+    compress_out.wren   = wren;
+    compress_out.rden1  = rden1;
+    compress_out.rden2  = rden2;
+    compress_out.lui    = lui;
+    compress_out.jal    = jal;
+    compress_out.jalr   = jalr;
     compress_out.branch = branch;
-    compress_out.load = load;
-    compress_out.store = store;
+    compress_out.load   = load;
+    compress_out.store  = store;
     compress_out.alu_op = alu_op;
     compress_out.bcu_op = bcu_op;
     compress_out.lsu_op = lsu_op;
     compress_out.ebreak = ebreak;
-    compress_out.valid = valid;
+    compress_out.valid  = valid;
 
   end
 
