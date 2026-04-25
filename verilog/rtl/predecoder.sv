@@ -134,7 +134,6 @@ module predecoder (
           funct_lhu: lsu_op.lsu_lhu = 1;
           default:   valid = 0;
         endcase
-        ;
       end
       opcode_store: begin
         imm   = imm_s;
@@ -147,11 +146,9 @@ module predecoder (
           funct_sw: lsu_op.lsu_sw = 1;
           default:  valid = 0;
         endcase
-        ;
       end
       default: valid = 0;
     endcase
-    ;
 
     predecoder_out.imm    = imm;
     predecoder_out.wren   = wren;
