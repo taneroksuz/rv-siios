@@ -161,7 +161,7 @@ module csr (
             csr_machine_reg.mie.ueie <= csr_in.cwdata[8];
             csr_machine_reg.mie.mtie <= csr_in.cwdata[7];
             csr_machine_reg.mie.stie <= csr_in.cwdata[5];
-            csr_machine_reg.mie.ueie <= csr_in.cwdata[4];
+            csr_machine_reg.mie.utie <= csr_in.cwdata[4];
             csr_machine_reg.mie.msie <= csr_in.cwdata[3];
             csr_machine_reg.mie.ssie <= csr_in.cwdata[1];
             csr_machine_reg.mie.usie <= csr_in.cwdata[0];
@@ -170,7 +170,7 @@ module csr (
             csr_machine_reg.mip.seip <= csr_in.cwdata[9];
             csr_machine_reg.mip.ueip <= csr_in.cwdata[8];
             csr_machine_reg.mip.stip <= csr_in.cwdata[5];
-            csr_machine_reg.mip.ueip <= csr_in.cwdata[4];
+            csr_machine_reg.mip.utip <= csr_in.cwdata[4];
             csr_machine_reg.mip.ssip <= csr_in.cwdata[1];
             csr_machine_reg.mip.usip <= csr_in.cwdata[0];
           end
