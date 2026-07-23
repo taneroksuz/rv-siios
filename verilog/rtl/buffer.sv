@@ -6,14 +6,14 @@ package buffer_wires;
   localparam DEPTH = $clog2(BUFFER_DEPTH);
 
   typedef struct packed {
-    logic [0 : 0] wen0;
-    logic [0 : 0] wen1;
+    logic [0 : 0]       wen0;
+    logic [0 : 0]       wen1;
     logic [DEPTH-1 : 0] waddr0;
     logic [DEPTH-1 : 0] waddr1;
     logic [DEPTH-1 : 0] raddr0;
     logic [DEPTH-1 : 0] raddr1;
-    logic [48 : 0] wdata0;
-    logic [48 : 0] wdata1;
+    logic [48 : 0]      wdata0;
+    logic [48 : 0]      wdata1;
   } buffer_reg_in_type;
 
   typedef struct packed {
@@ -61,8 +61,10 @@ module buffer_reg (
   end
 
   always_comb begin
-    buffer_reg_out.rdata0 = buffer_reg_in.raddr0 == buffer_reg_in.waddr0 ? buffer_reg_in.wdata0 : rdata0;
-    buffer_reg_out.rdata1 = buffer_reg_in.raddr1 == buffer_reg_in.waddr1 ? buffer_reg_in.wdata1 : rdata1;
+    buffer_reg_out.rdata0 = buffer_reg_in.raddr0 == buffer_reg_in.waddr0 ? buffer_reg_in.wdata0 :
+        rdata0;
+    buffer_reg_out.rdata1 = buffer_reg_in.raddr1 == buffer_reg_in.waddr1 ? buffer_reg_in.wdata1 :
+        rdata1;
   end
 
 endmodule
@@ -88,18 +90,18 @@ module buffer_ctrl (
     logic [DEPTH : 0] diff;
     logic [DEPTH : 0] count;
     logic [DEPTH : 0] align;
-    logic [48 : 0] wdata0;
-    logic [48 : 0] wdata1;
-    logic [48 : 0] rdata0;
-    logic [48 : 0] rdata1;
-    logic [31 : 0] pc;
-    logic [31 : 0] instr;
-    logic [0 : 0] wen;
-    logic [0 : 0] comp;
-    logic [0 : 0] ready;
-    logic [0 : 0] error;
-    logic [0 : 0] clear;
-    logic [0 : 0] stall;
+    logic [48 : 0]    wdata0;
+    logic [48 : 0]    wdata1;
+    logic [48 : 0]    rdata0;
+    logic [48 : 0]    rdata1;
+    logic [31 : 0]    pc;
+    logic [31 : 0]    instr;
+    logic [0 : 0]     wen;
+    logic [0 : 0]     comp;
+    logic [0 : 0]     ready;
+    logic [0 : 0]     error;
+    logic [0 : 0]     clear;
+    logic [0 : 0]     stall;
   } reg_type;
 
   parameter reg_type init_reg = '{
@@ -141,10 +143,10 @@ module buffer_ctrl (
       v.clear = 0;
     end
 
-    v.wen                = (~buffer_in.clear) & (~r.stall) & buffer_in.ready;
+    v.wen = (~buffer_in.clear) & (~r.stall) & buffer_in.ready;
 
-    v.wdata0             = {buffer_in.error, buffer_in.pc[31:2], 2'b00, buffer_in.rdata[15:0]};
-    v.wdata1             = {buffer_in.error, buffer_in.pc[31:2], 2'b10, buffer_in.rdata[31:16]};
+    v.wdata0 = {buffer_in.error, buffer_in.pc[31:2], 2'b00, buffer_in.rdata[15:0]};
+    v.wdata1 = {buffer_in.error, buffer_in.pc[31:2], 2'b10, buffer_in.rdata[31:16]};
 
     buffer_reg_in.wen0   = v.wen;
     buffer_reg_in.wen1   = v.wen;
@@ -174,9 +176,9 @@ module buffer_ctrl (
       v.count = v.count + 2;
     end
 
-    v.diff  = 0;
+    v.diff = 0;
 
-    v.comp  = ~(&v.rdata0[1:0]);
+    v.comp = ~(&v.rdata0[1:0]);
 
     v.pc    = 0;
     v.instr = 0;
@@ -223,7 +225,7 @@ module buffer_ctrl (
     buffer_out.done  = v.ready;
     buffer_out.stall = ~v.wen;
 
-    rin              = v;
+    rin = v;
 
   end
 

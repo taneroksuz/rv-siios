@@ -19,8 +19,8 @@ module predecoder (
   logic [6 : 0] opcode;
   logic [2 : 0] funct3;
 
-  logic [4 : 0] waddr;
-  logic [4 : 0] raddr1;
+  logic [ 4 : 0] waddr;
+  logic [ 4 : 0] raddr1;
   logic [11 : 0] caddr;
 
   logic [0 : 0] wren;
@@ -62,26 +62,26 @@ module predecoder (
     opcode = instr[6:0];
     funct3 = instr[14:12];
 
-    waddr = instr[11:7];
+    waddr  = instr[11:7];
     raddr1 = instr[19:15];
-    caddr = instr[31:20];
+    caddr  = instr[31:20];
 
-    wren = 0;
+    wren  = 0;
     rden1 = 0;
     rden2 = 0;
 
-    auipc = 0;
-    jal = 0;
-    jalr = 0;
+    auipc  = 0;
+    jal    = 0;
+    jalr   = 0;
     branch = 0;
-    load = 0;
-    store = 0;
-    valid = 1;
+    load   = 0;
+    store  = 0;
+    valid  = 1;
 
     bcu_op = init_bcu_op;
     lsu_op = init_lsu_op;
 
-    nonzero_waddr = |waddr;
+    nonzero_waddr  = |waddr;
     nonzero_raddr1 = |raddr1;
 
     nonzero_imm_i = |imm_i;

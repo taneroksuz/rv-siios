@@ -7,10 +7,10 @@ package tim_wires;
   localparam WIDTH = $clog2(TIM_WIDTH);
 
   typedef struct packed {
-    logic [0 : 0] en;
+    logic [0 : 0]       en;
     logic [DEPTH-1 : 0] addr;
-    logic [3 : 0] strb;
-    logic [31 : 0] data;
+    logic [3 : 0]       strb;
+    logic [31 : 0]      data;
   } tim_ram_in_type;
 
   typedef struct packed {logic [31 : 0] data;} tim_ram_out_type;
@@ -49,13 +49,13 @@ module tim_ram (
   logic [      3:0] be;
   logic [DEPTH-1:0] addr;
 
-  assign we               = tim_ram_in.en && (|tim_ram_in.strb);
-  assign d0               = tim_ram_in.data[7:0];
-  assign d1               = tim_ram_in.data[15:8];
-  assign d2               = tim_ram_in.data[23:16];
-  assign d3               = tim_ram_in.data[31:24];
-  assign be               = tim_ram_in.strb;
-  assign addr             = tim_ram_in.addr;
+  assign we   = tim_ram_in.en && (|tim_ram_in.strb);
+  assign d0   = tim_ram_in.data[7:0];
+  assign d1   = tim_ram_in.data[15:8];
+  assign d2   = tim_ram_in.data[23:16];
+  assign d3   = tim_ram_in.data[31:24];
+  assign be   = tim_ram_in.strb;
+  assign addr = tim_ram_in.addr;
 
   assign tim_ram_out.data = {q3, q2, q1, q0};
 
@@ -102,9 +102,9 @@ module tim_ctrl (
   typedef struct packed {
     logic [WIDTH-1:0] wid;
     logic [DEPTH-1:0] did;
-    logic [31:0] data;
-    logic [3:0] strb;
-    logic [0:0] valid;
+    logic [31:0]      data;
+    logic [3:0]       strb;
+    logic [0:0]       valid;
   } front_type;
 
   parameter front_type init_reg = 0;
@@ -114,7 +114,7 @@ module tim_ctrl (
 
   always_comb begin
 
-    v       = r;
+    v = r;
 
     v.valid = 0;
     v.strb  = 0;
@@ -127,7 +127,7 @@ module tim_ctrl (
       v.wid   = tim_in.mem_addr[(WIDTH+1):2];
     end
 
-    dvec_in             = init_tim_vec_in;
+    dvec_in = init_tim_vec_in;
 
     // Write data
     dvec_in[v.wid].en   = v.valid;
@@ -135,11 +135,11 @@ module tim_ctrl (
     dvec_in[v.wid].addr = v.did;
     dvec_in[v.wid].data = v.data;
 
-    rin                 = v;
+    rin = v;
 
-    tim_out.mem_rdata   = dvec_out[r.wid].data;
-    tim_out.mem_error   = 0;
-    tim_out.mem_ready   = r.valid;
+    tim_out.mem_rdata = dvec_out[r.wid].data;
+    tim_out.mem_error = 0;
+    tim_out.mem_ready = r.valid;
 
   end
 

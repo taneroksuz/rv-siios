@@ -51,8 +51,8 @@ module div (
           v.counter        = 32;
         end
         v.overflow = 0;
-        if ((v.op.divs == 1 | v.op.rem == 1) &&
-            v.op1 == 32'h80000000 && v.op2 == 32'hFFFFFFFF) begin
+        if ((v.op.divs == 1 | v.op.rem == 1) && v.op1 == 32'h80000000 &&
+            v.op2 == 32'hFFFFFFFF) begin
           v.overflow = 1;
           v.counter  = 32;
         end

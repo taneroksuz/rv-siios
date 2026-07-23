@@ -9,7 +9,7 @@ module postdecoder (
 
   logic [31 : 0] instr;
   logic [31 : 0] mcounteren;
-  logic [1 : 0] mode;
+  logic [ 1 : 0] mode;
 
   logic [31 : 0] imm_c;
   logic [31 : 0] imm_i;
@@ -19,8 +19,8 @@ module postdecoder (
   logic [6 : 0] opcode;
   logic [2 : 0] funct3;
 
-  logic [4 : 0] waddr;
-  logic [4 : 0] raddr1;
+  logic [ 4 : 0] waddr;
+  logic [ 4 : 0] raddr1;
   logic [11 : 0] caddr;
 
   logic [0 : 0] wren;
@@ -57,54 +57,54 @@ module postdecoder (
 
   always_comb begin
 
-    instr          = postdecoder_in.instr;
-    mcounteren     = postdecoder_in.mcounteren;
-    mode           = postdecoder_in.mode;
+    instr      = postdecoder_in.instr;
+    mcounteren = postdecoder_in.mcounteren;
+    mode       = postdecoder_in.mode;
 
-    imm_c          = {{27'h0}, instr[19:15]};
-    imm_i          = {{20{instr[31]}}, instr[31:20]};
-    imm_u          = {instr[31:12], 12'h0};
+    imm_c = {{27'h0}, instr[19:15]};
+    imm_i = {{20{instr[31]}}, instr[31:20]};
+    imm_u = {instr[31:12], 12'h0};
 
-    imm            = 0;
+    imm = 0;
 
-    opcode         = instr[6:0];
-    funct3         = instr[14:12];
+    opcode = instr[6:0];
+    funct3 = instr[14:12];
 
-    waddr          = instr[11:7];
-    raddr1         = instr[19:15];
-    caddr          = instr[31:20];
+    waddr  = instr[11:7];
+    raddr1 = instr[19:15];
+    caddr  = instr[31:20];
 
-    wren           = 0;
-    rden1          = 0;
-    rden2          = 0;
+    wren  = 0;
+    rden1 = 0;
+    rden2 = 0;
 
-    cwren          = 0;
-    crden          = 0;
+    cwren = 0;
+    crden = 0;
 
-    lui            = 0;
-    nop            = 0;
-    csreg          = 0;
-    division       = 0;
-    mult           = 0;
-    ecall          = 0;
-    ebreak         = 0;
-    mret           = 0;
-    fence          = 0;
-    wfi            = 0;
-    valid          = 1;
+    lui      = 0;
+    nop      = 0;
+    csreg    = 0;
+    division = 0;
+    mult     = 0;
+    ecall    = 0;
+    ebreak   = 0;
+    mret     = 0;
+    fence    = 0;
+    wfi      = 0;
+    valid    = 1;
 
-    alu_op         = init_alu_op;
-    csr_op         = init_csr_op;
+    alu_op = init_alu_op;
+    csr_op = init_csr_op;
 
-    div_op         = init_div_op;
-    mul_op         = init_mul_op;
+    div_op = init_div_op;
+    mul_op = init_mul_op;
 
     nonzero_waddr  = |waddr;
     nonzero_raddr1 = |raddr1;
 
-    nonzero_imm_c  = |imm_c;
-    nonzero_imm_i  = |imm_i;
-    nonzero_imm_u  = |imm_u;
+    nonzero_imm_c = |imm_c;
+    nonzero_imm_i = |imm_i;
+    nonzero_imm_u = |imm_u;
 
     case (opcode)
       opcode_lui: begin
@@ -290,7 +290,8 @@ module postdecoder (
     end
 
     if (csreg == 1) begin
-      if (mode < caddr[9:8] && caddr[11:8] == 4'hB && caddr[6:5] == 0 && mcounteren[caddr[4:0]] == 0) begin
+      if (mode < caddr[9:8] && caddr[11:8] == 4'hB && caddr[6:5] == 0 &&
+          mcounteren[caddr[4:0]] == 0) begin
         valid = 0;
       end else if (mode < caddr[9:8]) begin
         valid = 0;

@@ -5,17 +5,17 @@ module testbench ();
 
   timeunit 1ns; timeprecision 1ps;
 
-  logic reset;
-  logic clock;
-  logic sclk;
-  logic mosi;
-  logic miso;
-  logic ss;
-  logic rx;
-  logic tx;
+  logic       reset;
+  logic       clock;
+  logic       sclk;
+  logic       mosi;
+  logic       miso;
+  logic       ss;
+  logic       rx;
+  logic       tx;
   logic [1:0] clear;
 
-  mem_in_type ram_in;
+  mem_in_type  ram_in;
   mem_out_type ram_out;
 
   logic [31 : 0] host[0:0] = '{default: '0};
@@ -131,7 +131,8 @@ module testbench ();
 
   always_ff @(posedge clock) begin
     if (testbench.soc_comp.cpu_comp.fetch_stage_comp.dmem_in.mem_valid == 1) begin
-      if (testbench.soc_comp.cpu_comp.fetch_stage_comp.dmem_in.mem_addr[31:2] == host[0][31:2]) begin
+      if (testbench.soc_comp.cpu_comp.fetch_stage_comp.dmem_in.mem_addr[31:2] ==
+          host[0][31:2]) begin
         if (|testbench.soc_comp.cpu_comp.fetch_stage_comp.dmem_in.mem_wstrb == 1) begin
           $display("%d", testbench.soc_comp.cpu_comp.fetch_stage_comp.dmem_in.mem_wdata);
           $finish;

@@ -34,11 +34,11 @@ module execute_stage (
 
   always_comb begin
 
-    v                   = r;
+    v = r;
 
-    v.done              = d.f.done;
+    v.done = d.f.done;
 
-    v.instr             = d.f.instr;
+    v.instr = d.f.instr;
 
     v.instr.op.cwren    = 0;
     v.instr.op.crden    = 0;
@@ -51,21 +51,21 @@ module execute_stage (
     v.instr.op.fence    = 0;
     v.instr.op.wfi      = 0;
 
-    v.instr.div_op      = init_div_op;
-    v.instr.mul_op      = init_mul_op;
+    v.instr.div_op = init_div_op;
+    v.instr.mul_op = init_mul_op;
 
     if (d.e.stall == 1) begin
       v          = r;
       v.instr.op = r.instr.op_b;
     end
 
-    v.stall                   = 0;
+    v.stall = 0;
 
-    v.enable                  = ~(d.e.stall | csr_out.trap | csr_out.mret | clear);
+    v.enable = ~(d.e.stall | csr_out.trap | csr_out.mret | clear);
 
-    v.miss                    = 0;
+    v.miss = 0;
 
-    v.mode                    = csr_out.mode;
+    v.mode = csr_out.mode;
 
     postdecoder_in.instr      = v.instr.instr;
     postdecoder_in.mcounteren = csr_out.mcounteren;
@@ -126,18 +126,18 @@ module execute_stage (
       v.instr.op.exception = 0;
     end
 
-    csr_in.crden      = v.instr.op.crden;
-    csr_in.craddr     = v.instr.caddr;
+    csr_in.crden  = v.instr.op.crden;
+    csr_in.craddr = v.instr.caddr;
 
-    v.instr.crdata    = csr_out.crdata;
+    v.instr.crdata = csr_out.crdata;
 
-    alu_in.rdata1     = v.instr.rdata1;
-    alu_in.rdata2     = v.instr.rdata2;
-    alu_in.imm        = v.instr.imm;
-    alu_in.sel        = v.instr.op.rden2;
-    alu_in.alu_op     = v.instr.alu_op;
+    alu_in.rdata1 = v.instr.rdata1;
+    alu_in.rdata2 = v.instr.rdata2;
+    alu_in.imm    = v.instr.imm;
+    alu_in.sel    = v.instr.op.rden2;
+    alu_in.alu_op = v.instr.alu_op;
 
-    v.instr.wdata     = alu_out.res;
+    v.instr.wdata = alu_out.res;
 
     csr_alu_in.cdata  = v.instr.crdata;
     csr_alu_in.rdata1 = v.instr.rdata1;
@@ -145,29 +145,29 @@ module execute_stage (
     csr_alu_in.sel    = v.instr.op.rden1;
     csr_alu_in.csr_op = v.instr.csr_op;
 
-    v.instr.cwdata    = csr_alu_out.cdata;
+    v.instr.cwdata = csr_alu_out.cdata;
 
-    div_in.rdata1     = v.instr.rdata1;
-    div_in.rdata2     = v.instr.rdata2;
-    div_in.enable     = v.instr.op.division & v.enable;
-    div_in.op         = v.instr.div_op;
+    div_in.rdata1 = v.instr.rdata1;
+    div_in.rdata2 = v.instr.rdata2;
+    div_in.enable = v.instr.op.division & v.enable;
+    div_in.op     = v.instr.div_op;
 
-    v.instr.ddata     = div_out.result;
-    v.instr.dready    = div_out.ready;
+    v.instr.ddata  = div_out.result;
+    v.instr.dready = div_out.ready;
 
-    mul_in.rdata1     = v.instr.rdata1;
-    mul_in.rdata2     = v.instr.rdata2;
-    mul_in.enable     = v.instr.op.mult & v.enable;
-    mul_in.op         = v.instr.mul_op;
+    mul_in.rdata1 = v.instr.rdata1;
+    mul_in.rdata2 = v.instr.rdata2;
+    mul_in.enable = v.instr.op.mult & v.enable;
+    mul_in.op     = v.instr.mul_op;
 
-    v.instr.mdata     = mul_out.result;
-    v.instr.mready    = mul_out.ready;
+    v.instr.mdata  = mul_out.result;
+    v.instr.mready = mul_out.ready;
 
     lsu_in.ldata      = dmem_out.mem_rdata;
     lsu_in.byteenable = v.instr.byteenable;
     lsu_in.lsu_op     = v.instr.lsu_op;
 
-    v.instr.ldata     = lsu_out.res;
+    v.instr.ldata = lsu_out.res;
 
     if (v.instr.op.auipc == 1) begin
       v.instr.wdata = v.instr.address;
@@ -216,32 +216,32 @@ module execute_stage (
       v.instr.op.valid = 0;
     end
 
-    register_win.wren    = v.instr.op.wren;
-    register_win.waddr   = v.instr.waddr;
-    register_win.wdata   = v.instr.wdata;
+    register_win.wren  = v.instr.op.wren;
+    register_win.waddr = v.instr.waddr;
+    register_win.wdata = v.instr.wdata;
 
     forwarding_ein.wren  = v.instr.op.wren;
     forwarding_ein.waddr = v.instr.waddr;
     forwarding_ein.wdata = v.instr.wdata;
 
-    csr_in.valid         = v.instr.op.valid;
-    csr_in.cwren         = v.instr.op.cwren;
-    csr_in.cwaddr        = v.instr.caddr;
-    csr_in.cwdata        = v.instr.cwdata;
+    csr_in.valid  = v.instr.op.valid;
+    csr_in.cwren  = v.instr.op.cwren;
+    csr_in.cwaddr = v.instr.caddr;
+    csr_in.cwdata = v.instr.cwdata;
 
-    csr_in.mret          = v.instr.op.mret;
-    csr_in.exception     = v.instr.op.exception;
-    csr_in.epc           = v.instr.pc;
-    csr_in.ecause        = v.instr.ecause;
-    csr_in.etval         = v.instr.etval;
+    csr_in.mret      = v.instr.op.mret;
+    csr_in.exception = v.instr.op.exception;
+    csr_in.epc       = v.instr.pc;
+    csr_in.ecause    = v.instr.ecause;
+    csr_in.etval     = v.instr.etval;
 
-    rin                  = v;
+    rin = v;
 
-    y.instr              = v.instr;
-    y.stall              = v.stall;
+    y.instr = v.instr;
+    y.stall = v.stall;
 
-    q.instr              = r.instr;
-    q.stall              = r.stall;
+    q.instr = r.instr;
+    q.stall = r.stall;
 
   end
 

@@ -36,13 +36,13 @@ module fetch_stage (
 
   always_comb begin
 
-    v       = r;
+    v = r;
 
     v.valid = 0;
     v.stall = buffer_out.stall;
 
-    v.spec  = clear | csr_out.trap | csr_out.mret | d.f.instr.op.jump | a.e.instr.op.fence;
-    v.mode  = csr_out.mode;
+    v.spec = clear | csr_out.trap | csr_out.mret | d.f.instr.op.jump | a.e.instr.op.fence;
+    v.mode = csr_out.mode;
 
     v.rdata = imem_out.mem_rdata;
     v.error = imem_out.mem_error;
@@ -111,48 +111,48 @@ module fetch_stage (
       end
     endcase
 
-    buffer_in.pc        = r.addr;
-    buffer_in.rdata     = v.rdata;
-    buffer_in.error     = v.error;
-    buffer_in.ready     = v.ready;
-    buffer_in.clear     = v.spec;
-    buffer_in.stall     = a.e.stall;
+    buffer_in.pc    = r.addr;
+    buffer_in.rdata = v.rdata;
+    buffer_in.error = v.error;
+    buffer_in.ready = v.ready;
+    buffer_in.clear = v.spec;
+    buffer_in.stall = a.e.stall;
 
-    imem_in.mem_valid   = v.valid;
-    imem_in.mem_instr   = 1;
-    imem_in.mem_mode    = v.mode;
-    imem_in.mem_addr    = v.addr;
-    imem_in.mem_wdata   = 0;
-    imem_in.mem_wstrb   = 0;
+    imem_in.mem_valid = v.valid;
+    imem_in.mem_instr = 1;
+    imem_in.mem_mode  = v.mode;
+    imem_in.mem_addr  = v.addr;
+    imem_in.mem_wdata = 0;
+    imem_in.mem_wstrb = 0;
 
-    v.instr.pc          = buffer_out.pc;
-    v.instr.instr       = buffer_out.instr;
-    v.miss              = buffer_out.miss;
-    v.done              = buffer_out.done;
+    v.instr.pc    = buffer_out.pc;
+    v.instr.instr = buffer_out.instr;
+    v.miss        = buffer_out.miss;
+    v.done        = buffer_out.done;
 
-    v.stall             = 0;
+    v.stall = 0;
 
-    v.instr.waddr       = v.instr.instr[11:7];
-    v.instr.raddr1      = v.instr.instr[19:15];
-    v.instr.raddr2      = v.instr.instr[24:20];
-    v.instr.caddr       = v.instr.instr[31:20];
+    v.instr.waddr  = v.instr.instr[11:7];
+    v.instr.raddr1 = v.instr.instr[19:15];
+    v.instr.raddr2 = v.instr.instr[24:20];
+    v.instr.caddr  = v.instr.instr[31:20];
 
-    v.instr.imm         = 0;
-    v.instr.alu_op      = 0;
-    v.instr.bcu_op      = 0;
-    v.instr.lsu_op      = 0;
-    v.instr.op.wren     = 0;
-    v.instr.op.rden1    = 0;
-    v.instr.op.rden2    = 0;
-    v.instr.op.lui      = 0;
-    v.instr.op.auipc    = 0;
-    v.instr.op.jal      = 0;
-    v.instr.op.jalr     = 0;
-    v.instr.op.branch   = 0;
-    v.instr.op.load     = 0;
-    v.instr.op.store    = 0;
-    v.instr.op.ebreak   = 0;
-    v.instr.op.valid    = 0;
+    v.instr.imm       = 0;
+    v.instr.alu_op    = 0;
+    v.instr.bcu_op    = 0;
+    v.instr.lsu_op    = 0;
+    v.instr.op.wren   = 0;
+    v.instr.op.rden1  = 0;
+    v.instr.op.rden2  = 0;
+    v.instr.op.lui    = 0;
+    v.instr.op.auipc  = 0;
+    v.instr.op.jal    = 0;
+    v.instr.op.jalr   = 0;
+    v.instr.op.branch = 0;
+    v.instr.op.load   = 0;
+    v.instr.op.store  = 0;
+    v.instr.op.ebreak = 0;
+    v.instr.op.valid  = 0;
 
     predecoder_in.instr = v.instr.instr;
 
@@ -195,41 +195,41 @@ module fetch_stage (
       v.instr.op.valid  = compress_out.valid;
     end
 
-    register_rin.raddr1   = v.instr.raddr1;
-    register_rin.raddr2   = v.instr.raddr2;
+    register_rin.raddr1 = v.instr.raddr1;
+    register_rin.raddr2 = v.instr.raddr2;
 
     forwarding_rin.raddr1 = v.instr.raddr1;
     forwarding_rin.raddr2 = v.instr.raddr2;
     forwarding_rin.rdata1 = register_out.rdata1;
     forwarding_rin.rdata2 = register_out.rdata2;
 
-    v.instr.rdata1        = forwarding_out.data1;
-    v.instr.rdata2        = forwarding_out.data2;
+    v.instr.rdata1 = forwarding_out.data1;
+    v.instr.rdata2 = forwarding_out.data2;
 
-    v.instr.sdata         = v.instr.rdata2;
+    v.instr.sdata = v.instr.rdata2;
 
-    bcu_in.rdata1         = v.instr.rdata1;
-    bcu_in.rdata2         = v.instr.rdata2;
-    bcu_in.bcu_op         = v.instr.bcu_op;
+    bcu_in.rdata1 = v.instr.rdata1;
+    bcu_in.rdata2 = v.instr.rdata2;
+    bcu_in.bcu_op = v.instr.bcu_op;
 
-    v.instr.op.jump       = v.instr.op.jal | v.instr.op.jalr | bcu_out.branch;
+    v.instr.op.jump = v.instr.op.jal | v.instr.op.jalr | bcu_out.branch;
 
-    agu_in.rdata1         = v.instr.rdata1;
-    agu_in.imm            = v.instr.imm;
-    agu_in.pc             = v.instr.pc;
-    agu_in.lsu_op         = v.instr.lsu_op;
-    agu_in.auipc          = v.instr.op.auipc;
-    agu_in.jal            = v.instr.op.jal;
-    agu_in.jalr           = v.instr.op.jalr;
-    agu_in.branch         = v.instr.op.branch;
-    agu_in.load           = v.instr.op.load;
-    agu_in.store          = v.instr.op.store;
+    agu_in.rdata1 = v.instr.rdata1;
+    agu_in.imm    = v.instr.imm;
+    agu_in.pc     = v.instr.pc;
+    agu_in.lsu_op = v.instr.lsu_op;
+    agu_in.auipc  = v.instr.op.auipc;
+    agu_in.jal    = v.instr.op.jal;
+    agu_in.jalr   = v.instr.op.jalr;
+    agu_in.branch = v.instr.op.branch;
+    agu_in.load   = v.instr.op.load;
+    agu_in.store  = v.instr.op.store;
 
-    v.instr.address       = agu_out.address;
-    v.instr.byteenable    = agu_out.byteenable;
-    v.instr.ecause        = agu_out.ecause;
-    v.instr.etval         = agu_out.etval;
-    v.instr.op.exception  = agu_out.exception;
+    v.instr.address      = agu_out.address;
+    v.instr.byteenable   = agu_out.byteenable;
+    v.instr.ecause       = agu_out.ecause;
+    v.instr.etval        = agu_out.etval;
+    v.instr.op.exception = agu_out.exception;
 
     if ((v.stall | csr_out.trap | csr_out.mret | clear) == 1) begin
       v.instr.op = init_operation;
@@ -266,10 +266,10 @@ module fetch_stage (
     rin = v;
 
     y.instr = v.instr;
-    y.done = v.done;
+    y.done  = v.done;
     y.stall = v.stall;
     q.instr = r.instr;
-    q.done = r.done;
+    q.done  = r.done;
     q.stall = r.stall;
 
   end

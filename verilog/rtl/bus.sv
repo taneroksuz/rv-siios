@@ -37,16 +37,16 @@ module bus (
 
   always_comb begin
 
-    rom_in             = init_mem_in;
-    ram_in             = init_mem_in;
-    tim_in             = init_mem_in;
-    spi_in             = init_mem_in;
-    clint_in           = init_mem_in;
-    error_in           = init_mem_in;
-    uart_rx_in         = init_mem_in;
-    uart_tx_in         = init_mem_in;
+    rom_in     = init_mem_in;
+    ram_in     = init_mem_in;
+    tim_in     = init_mem_in;
+    spi_in     = init_mem_in;
+    clint_in   = init_mem_in;
+    error_in   = init_mem_in;
+    uart_rx_in = init_mem_in;
+    uart_tx_in = init_mem_in;
 
-    base_addr          = 0;
+    base_addr = 0;
 
     error_in.mem_valid = memory_in.mem_valid;
 
@@ -86,7 +86,7 @@ module bus (
       error_in.mem_valid = 0;
     end
 
-    mem_addr            = memory_in.mem_addr - base_addr;
+    mem_addr = memory_in.mem_addr - base_addr;
 
     rom_in.mem_addr     = mem_addr;
     ram_in.mem_addr     = mem_addr;
@@ -96,7 +96,7 @@ module bus (
     uart_rx_in.mem_addr = mem_addr;
     uart_tx_in.mem_addr = mem_addr;
 
-    memory_out          = init_mem_out;
+    memory_out = init_mem_out;
 
     if (rom_out.mem_ready == 1) begin
       memory_out = rom_out;

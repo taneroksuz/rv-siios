@@ -2,7 +2,7 @@ import configure::*;
 import wires::*;
 
 module mul #(
-    parameter MUL_PERFORMANCE = 1
+  parameter MUL_PERFORMANCE = 1
 ) (
   input  logic        reset,
   input  logic        clock,
