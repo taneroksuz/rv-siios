@@ -62,4 +62,4 @@ make verilator MAXTIME=1000
 ### Coremark Benchmark
 | Cycles | Iteration/s/MHz | Iteration |
 | ------ | --------------- | --------- |
-| 339800 |            2.94 |        10 |
+| 320200 |            3.12 |        10 |
