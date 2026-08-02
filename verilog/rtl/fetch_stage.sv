@@ -50,15 +50,36 @@ module fetch_stage (
 
     case (v.state)
       IDLE: begin
+        v.state = BUSY;
+        v.valid = 1;
         v.stall = 1;
       end
       BUSY: begin
-        if (v.ready == 0) begin
+        if (v.ready == 1) begin
+          v.state = BUSY;
+          v.valid = 1;
+        end else if (v.spec == 1) begin
+          v.state = INVALID;
+          v.valid = 0;
+          v.stall = 1;
+        end else begin
+          v.state = BUSY;
+          v.valid = 0;
           v.stall = 1;
         end
       end
       INVALID: begin
-        v.stall = 1;
+        if (v.ready == 1) begin
+          v.state = BUSY;
+          v.ready = 0;
+          v.valid = 1;
+          v.stall = 1;
+        end else begin
+          v.state = INVALID;
+          v.ready = 0;
+          v.valid = 0;
+          v.stall = 1;
+        end
       end
       default: begin
       end
@@ -77,39 +98,6 @@ module fetch_stage (
     end else if (v.stall == 0) begin
       v.addr = v.addr + 4;
     end
-
-    case (v.state)
-      IDLE: begin
-        if (clear == 0) begin
-          v.state = BUSY;
-          v.valid = 1;
-        end
-      end
-      BUSY: begin
-        if (v.ready == 1) begin
-          v.state = BUSY;
-          v.valid = 1;
-        end else if (v.spec == 1) begin
-          v.state = INVALID;
-          v.valid = 0;
-        end else begin
-          v.state = BUSY;
-          v.valid = 0;
-        end
-      end
-      INVALID: begin
-        if (v.ready == 1) begin
-          v.state = BUSY;
-          v.valid = 1;
-        end else begin
-          v.state = INVALID;
-          v.valid = 0;
-        end
-        v.ready = 0;
-      end
-      default: begin
-      end
-    endcase
 
     buffer_in.pc    = r.addr;
     buffer_in.rdata = v.rdata;
