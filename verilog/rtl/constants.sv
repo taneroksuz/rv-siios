@@ -158,6 +158,27 @@ package constants;
   parameter [11 : 0] csr_mtval = 12'h343;
   parameter [11 : 0] csr_mip = 12'h344;
 
+  parameter [11 : 0] csr_pmpcfg0 = 12'h3A0;
+  parameter [11 : 0] csr_pmpcfg1 = 12'h3A1;
+  parameter [11 : 0] csr_pmpcfg2 = 12'h3A2;
+  parameter [11 : 0] csr_pmpcfg3 = 12'h3A3;
+  parameter [11 : 0] csr_pmpaddr0 = 12'h3B0;
+  parameter [11 : 0] csr_pmpaddr1 = 12'h3B1;
+  parameter [11 : 0] csr_pmpaddr2 = 12'h3B2;
+  parameter [11 : 0] csr_pmpaddr3 = 12'h3B3;
+  parameter [11 : 0] csr_pmpaddr4 = 12'h3B4;
+  parameter [11 : 0] csr_pmpaddr5 = 12'h3B5;
+  parameter [11 : 0] csr_pmpaddr6 = 12'h3B6;
+  parameter [11 : 0] csr_pmpaddr7 = 12'h3B7;
+  parameter [11 : 0] csr_pmpaddr8 = 12'h3B8;
+  parameter [11 : 0] csr_pmpaddr9 = 12'h3B9;
+  parameter [11 : 0] csr_pmpaddr10 = 12'h3BA;
+  parameter [11 : 0] csr_pmpaddr11 = 12'h3BB;
+  parameter [11 : 0] csr_pmpaddr12 = 12'h3BC;
+  parameter [11 : 0] csr_pmpaddr13 = 12'h3BD;
+  parameter [11 : 0] csr_pmpaddr14 = 12'h3BE;
+  parameter [11 : 0] csr_pmpaddr15 = 12'h3BF;
+
   parameter [11 : 0] csr_mcycle = 12'hB00;
   parameter [11 : 0] csr_minstret = 12'hB02;
   parameter [11 : 0] csr_mcycleh = 12'hB80;
@@ -167,6 +188,7 @@ package constants;
   parameter [11 : 0] csr_tdata1 = 12'h7A1;
   parameter [11 : 0] csr_tdata2 = 12'h7A2;
   parameter [11 : 0] csr_tdata3 = 12'h7A3;
+  parameter [11 : 0] csr_tcontrol = 12'h7A5;
 
   parameter [11 : 0] csr_dcsr = 12'h7B0;
   parameter [11 : 0] csr_dpc = 12'h7B1;

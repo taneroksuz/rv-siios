@@ -22,6 +22,16 @@ module csr (
   logic [7:0] cause = 0;
   logic [0:0] mret = 0;
 
+  logic [63 : 0] incr;
+
+  always_comb begin
+    if (csr_in.valid == 1) begin
+      incr = 1;
+    end else begin
+      incr = 0;
+    end
+  end
+
   always_comb begin
     if (csr_in.crden == 1) begin
       case (csr_in.craddr)
@@ -97,6 +107,26 @@ module csr (
         csr_minstreth: csr_out.crdata = csr_machine_reg.minstret[63:32];
         csr_mcounteren: csr_out.crdata = csr_machine_reg.mcounteren;
         csr_mcountinhibit: csr_out.crdata = csr_machine_reg.mcountinhibit;
+        csr_pmpcfg0: csr_out.crdata = csr_machine_reg.pmpcfg[0];
+        csr_pmpcfg1: csr_out.crdata = csr_machine_reg.pmpcfg[1];
+        csr_pmpcfg2: csr_out.crdata = csr_machine_reg.pmpcfg[2];
+        csr_pmpcfg3: csr_out.crdata = csr_machine_reg.pmpcfg[3];
+        csr_pmpaddr0: csr_out.crdata = csr_machine_reg.pmpaddr[0];
+        csr_pmpaddr1: csr_out.crdata = csr_machine_reg.pmpaddr[1];
+        csr_pmpaddr2: csr_out.crdata = csr_machine_reg.pmpaddr[2];
+        csr_pmpaddr3: csr_out.crdata = csr_machine_reg.pmpaddr[3];
+        csr_pmpaddr4: csr_out.crdata = csr_machine_reg.pmpaddr[4];
+        csr_pmpaddr5: csr_out.crdata = csr_machine_reg.pmpaddr[5];
+        csr_pmpaddr6: csr_out.crdata = csr_machine_reg.pmpaddr[6];
+        csr_pmpaddr7: csr_out.crdata = csr_machine_reg.pmpaddr[7];
+        csr_pmpaddr8: csr_out.crdata = csr_machine_reg.pmpaddr[8];
+        csr_pmpaddr9: csr_out.crdata = csr_machine_reg.pmpaddr[9];
+        csr_pmpaddr10: csr_out.crdata = csr_machine_reg.pmpaddr[10];
+        csr_pmpaddr11: csr_out.crdata = csr_machine_reg.pmpaddr[11];
+        csr_pmpaddr12: csr_out.crdata = csr_machine_reg.pmpaddr[12];
+        csr_pmpaddr13: csr_out.crdata = csr_machine_reg.pmpaddr[13];
+        csr_pmpaddr14: csr_out.crdata = csr_machine_reg.pmpaddr[14];
+        csr_pmpaddr15: csr_out.crdata = csr_machine_reg.pmpaddr[15];
         default: csr_out.crdata = 0;
       endcase
     end else begin
@@ -180,16 +210,34 @@ module csr (
           csr_minstreth:     csr_machine_reg.minstret[63:32] <= csr_in.cwdata;
           csr_mcounteren:    csr_machine_reg.mcounteren <= csr_in.cwdata;
           csr_mcountinhibit: csr_machine_reg.mcountinhibit <= csr_in.cwdata;
+          csr_pmpcfg0:       csr_machine_reg.pmpcfg[0] <= csr_in.cwdata;
+          csr_pmpcfg1:       csr_machine_reg.pmpcfg[1] <= csr_in.cwdata;
+          csr_pmpcfg2:       csr_machine_reg.pmpcfg[2] <= csr_in.cwdata;
+          csr_pmpcfg3:       csr_machine_reg.pmpcfg[3] <= csr_in.cwdata;
+          csr_pmpaddr0:      csr_machine_reg.pmpaddr[0] <= csr_in.cwdata;
+          csr_pmpaddr1:      csr_machine_reg.pmpaddr[1] <= csr_in.cwdata;
+          csr_pmpaddr2:      csr_machine_reg.pmpaddr[2] <= csr_in.cwdata;
+          csr_pmpaddr3:      csr_machine_reg.pmpaddr[3] <= csr_in.cwdata;
+          csr_pmpaddr4:      csr_machine_reg.pmpaddr[4] <= csr_in.cwdata;
+          csr_pmpaddr5:      csr_machine_reg.pmpaddr[5] <= csr_in.cwdata;
+          csr_pmpaddr6:      csr_machine_reg.pmpaddr[6] <= csr_in.cwdata;
+          csr_pmpaddr7:      csr_machine_reg.pmpaddr[7] <= csr_in.cwdata;
+          csr_pmpaddr8:      csr_machine_reg.pmpaddr[8] <= csr_in.cwdata;
+          csr_pmpaddr9:      csr_machine_reg.pmpaddr[9] <= csr_in.cwdata;
+          csr_pmpaddr10:     csr_machine_reg.pmpaddr[10] <= csr_in.cwdata;
+          csr_pmpaddr11:     csr_machine_reg.pmpaddr[11] <= csr_in.cwdata;
+          csr_pmpaddr12:     csr_machine_reg.pmpaddr[12] <= csr_in.cwdata;
+          csr_pmpaddr13:     csr_machine_reg.pmpaddr[13] <= csr_in.cwdata;
+          csr_pmpaddr14:     csr_machine_reg.pmpaddr[14] <= csr_in.cwdata;
+          csr_pmpaddr15:     csr_machine_reg.pmpaddr[15] <= csr_in.cwdata;
           default:           ;
         endcase
+      end else begin
+        csr_machine_reg.minstret <= csr_machine_reg.minstret + incr;
       end
 
       if (csr_machine_reg.mcountinhibit[0] == 0) begin
         csr_machine_reg.mcycle <= csr_machine_reg.mcycle + 1;
-      end
-
-      if (csr_in.valid == 1 && csr_machine_reg.mcountinhibit[2] == 0) begin
-        csr_machine_reg.minstret <= csr_machine_reg.minstret + 1;
       end
 
       if (meip == 1) begin
