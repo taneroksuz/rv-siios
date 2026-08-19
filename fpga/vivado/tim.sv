@@ -3,23 +3,20 @@ package tim_wires;
 
   import configure::*;
 
-  localparam DEPTH = $clog2(TIM_DEPTH);
-  localparam WIDTH = $clog2(TIM_WIDTH);
+  localparam TIM_WORDS = TIM_WIDTH * TIM_DEPTH;
+  localparam TADDR = $clog2(TIM_WORDS);
 
   typedef struct packed {
     logic [0 : 0]       en;
-    logic [DEPTH-1 : 0] addr;
+    logic [TADDR-1 : 0] addr;
     logic [3 : 0]       strb;
     logic [31 : 0]      data;
   } tim_ram_in_type;
 
   typedef struct packed {logic [31 : 0] data;} tim_ram_out_type;
 
-  typedef tim_ram_in_type tim_vec_in_type[TIM_WIDTH];
-  typedef tim_ram_out_type tim_vec_out_type[TIM_WIDTH];
-
-  localparam tim_vec_in_type  init_tim_vec_in  = '{default: 0};
-  localparam tim_vec_out_type init_tim_vec_out = '{default: 0};
+  localparam tim_ram_in_type  init_tim_ram_in  = '{default: '0};
+  localparam tim_ram_out_type init_tim_ram_out = '{default: '0};
 
 endpackage
 
@@ -34,12 +31,9 @@ module tim_ram (
 );
   timeunit 1ns; timeprecision 1ps;
 
-  localparam DEPTH = $clog2(TIM_DEPTH);
-  localparam WIDTH = $clog2(TIM_WIDTH);
-
   logic             we;
   logic [      3:0] be;
-  logic [DEPTH-1:0] addr;
+  logic [TADDR-1:0] addr;
   logic [     31:0] d;
   logic [     31:0] q;
 
@@ -50,7 +44,7 @@ module tim_ram (
 
   assign tim_ram_out.data = q;
 
-  (* ram_style = "block" *) logic [31:0] mem[0:TIM_DEPTH-1];
+  (* ram_style = "block" *) logic [31:0] mem[0:TIM_WORDS-1];
 
   always_ff @(posedge clock) begin
     if (we && be[0]) mem[addr][7:0] <= d[7:0];
@@ -65,19 +59,15 @@ endmodule
 module tim_ctrl (
   input  logic            reset,
   input  logic            clock,
-  input  tim_vec_out_type dvec_out,
-  output tim_vec_in_type  dvec_in,
+  input  tim_ram_out_type dvec_out,
+  output tim_ram_in_type  dvec_in,
   input  mem_in_type      tim_in,
   output mem_out_type     tim_out
 );
   timeunit 1ns; timeprecision 1ps;
 
-  localparam DEPTH = $clog2(TIM_DEPTH);
-  localparam WIDTH = $clog2(TIM_WIDTH);
-
   typedef struct packed {
-    logic [WIDTH-1:0] wid;
-    logic [DEPTH-1:0] did;
+    logic [TADDR-1:0] did;
     logic [31:0]      data;
     logic [3:0]       strb;
     logic [0:0]       valid;
@@ -99,21 +89,19 @@ module tim_ctrl (
       v.valid = tim_in.mem_valid;
       v.strb  = tim_in.mem_wstrb;
       v.data  = tim_in.mem_wdata;
-      v.did   = tim_in.mem_addr[(DEPTH+WIDTH+1):(WIDTH+2)];
-      v.wid   = tim_in.mem_addr[(WIDTH+1):2];
+      v.did   = tim_in.mem_addr[(TADDR+1):2];
     end
 
-    dvec_in = init_tim_vec_in;
+    dvec_in = init_tim_ram_in;
 
-    // Write data
-    dvec_in[v.wid].en   = v.valid;
-    dvec_in[v.wid].strb = v.strb;
-    dvec_in[v.wid].addr = v.did;
-    dvec_in[v.wid].data = v.data;
+    dvec_in.en   = v.valid;
+    dvec_in.strb = v.strb;
+    dvec_in.addr = v.did;
+    dvec_in.data = v.data;
 
     rin = v;
 
-    tim_out.mem_rdata = dvec_out[r.wid].data;
+    tim_out.mem_rdata = dvec_out.data;
     tim_out.mem_error = 0;
     tim_out.mem_ready = r.valid;
 
@@ -137,22 +125,14 @@ module tim (
 );
   timeunit 1ns; timeprecision 1ps;
 
-  tim_vec_in_type  dvec_in;
-  tim_vec_out_type dvec_out;
+  tim_ram_in_type  dvec_in;
+  tim_ram_out_type dvec_out;
 
-  generate
-
-    genvar i;
-
-    for (i = 0; i < TIM_WIDTH; i = i + 1) begin : tim_ram
-      tim_ram tim_ram_comp (
-        .clock      (clock),
-        .tim_ram_in (dvec_in[i]),
-        .tim_ram_out(dvec_out[i])
-      );
-    end
-
-  endgenerate
+  tim_ram tim_ram_comp (
+    .clock      (clock),
+    .tim_ram_in (dvec_in),
+    .tim_ram_out(dvec_out)
+  );
 
   tim_ctrl tim_ctrl_comp (
     .reset   (reset),
