@@ -18,7 +18,7 @@ package tim_wires;
   typedef tim_ram_in_type tim_vec_in_type[TIM_WIDTH];
   typedef tim_ram_out_type tim_vec_out_type[TIM_WIDTH];
 
-  localparam tim_vec_in_type init_tim_vec_in = '{default: 0};
+  localparam tim_vec_in_type  init_tim_vec_in  = '{default: 0};
   localparam tim_vec_out_type init_tim_vec_out = '{default: 0};
 
 endpackage

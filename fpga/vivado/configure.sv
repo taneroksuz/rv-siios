@@ -36,8 +36,8 @@ package configure;
   localparam SYS_FREQ = 100000000;  // 100MHz
 
   localparam CPU_FREQ = 20000000;  // 20MHz
-  localparam PER_FREQ = 5000000;  // 5MHz
-  localparam RTC_FREQ = 1000000;  // 1MHz
+  localparam PER_FREQ = 5000000;   // 5MHz
+  localparam RTC_FREQ = 1000000;   // 1MHz
   localparam BAUDRATE = 115200;
 
   localparam CLK_DIVIDER_CPU = SYS_FREQ / CPU_FREQ;
