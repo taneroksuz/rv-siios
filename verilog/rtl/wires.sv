@@ -16,7 +16,7 @@ package wires;
     logic [0 : 0] alu_xor;
   } alu_op_type;
 
-  parameter alu_op_type init_alu_op = '{
+  localparam alu_op_type init_alu_op = '{
       alu_add : 0,
       alu_sub : 0,
       alu_sll : 0,
@@ -36,7 +36,7 @@ package wires;
     logic [0 : 0] remu;
   } div_op_type;
 
-  parameter div_op_type init_div_op = '{divs : 0, divu : 0, rem : 0, remu : 0};
+  localparam div_op_type init_div_op = '{divs : 0, divu : 0, rem : 0, remu : 0};
 
   typedef struct packed {
     logic [0 : 0] muls;
@@ -45,7 +45,7 @@ package wires;
     logic [0 : 0] mulhu;
   } mul_op_type;
 
-  parameter mul_op_type init_mul_op = '{muls : 0, mulh : 0, mulhsu : 0, mulhu : 0};
+  localparam mul_op_type init_mul_op = '{muls : 0, mulh : 0, mulhsu : 0, mulhu : 0};
 
   typedef struct packed {
     logic [0 : 0] lsu_lb;
@@ -58,7 +58,7 @@ package wires;
     logic [0 : 0] lsu_sw;
   } lsu_op_type;
 
-  parameter lsu_op_type init_lsu_op = '{
+  localparam lsu_op_type init_lsu_op = '{
       lsu_lb : 0,
       lsu_lbu : 0,
       lsu_lh : 0,
@@ -78,7 +78,7 @@ package wires;
     logic [0 : 0] bcu_bgeu;
   } bcu_op_type;
 
-  parameter bcu_op_type init_bcu_op = '{
+  localparam bcu_op_type init_bcu_op = '{
       bcu_beq : 0,
       bcu_bne : 0,
       bcu_blt : 0,
@@ -96,7 +96,7 @@ package wires;
     logic [0 : 0] csrrci;
   } csr_op_type;
 
-  parameter csr_op_type init_csr_op = '{
+  localparam csr_op_type init_csr_op = '{
       csrrw : 0,
       csrrs : 0,
       csrrc : 0,
@@ -145,7 +145,7 @@ package wires;
     div_op_type    op;
   } div_reg_type;
 
-  parameter div_reg_type init_div_reg = '{
+  localparam div_reg_type init_div_reg = '{
       data1 : 0,
       data2 : 0,
       op1 : 0,
@@ -189,7 +189,7 @@ package wires;
     mul_op_type    op;
   } mul_reg_type;
 
-  parameter mul_reg_type init_mul_reg = '{
+  localparam mul_reg_type init_mul_reg = '{
       op1 : 0,
       op2 : 0,
       op1_signed : 0,
@@ -385,7 +385,7 @@ package wires;
     logic [0 : 0] valid;
   } operation_type;
 
-  parameter operation_type init_operation = '{
+  localparam operation_type init_operation = '{
       wren : 0,
       rden1 : 0,
       rden2 : 0,
@@ -450,7 +450,7 @@ package wires;
     mul_op_type    mul_op;
   } instruction_type;
 
-  parameter instruction_type init_instruction = '{
+  localparam instruction_type init_instruction = '{
       pc : 32'h0,
       npc : 32'h0,
       instr : 0,
@@ -512,7 +512,7 @@ package wires;
     logic [0 : 0]    stall;
   } fetch_reg_type;
 
-  parameter fetch_reg_type init_fetch_reg = '{
+  localparam fetch_reg_type init_fetch_reg = '{
       instr : init_instruction,
       state : IDLE,
       addr : 0,
@@ -541,7 +541,7 @@ package wires;
     logic [0 : 0]    stall;
   } execute_reg_type;
 
-  parameter execute_reg_type init_execute_reg = '{
+  localparam execute_reg_type init_execute_reg = '{
       instr : init_instruction,
       mode : m_mode,
       miss : 0,
@@ -562,7 +562,7 @@ package wires;
     logic [0:0]   usip;
   } csr_mip_reg_type;
 
-  parameter csr_mip_reg_type init_csr_mip_reg = '{
+  localparam csr_mip_reg_type init_csr_mip_reg = '{
       meip : 0,
       seip : 0,
       ueip : 0,
@@ -586,7 +586,7 @@ package wires;
     logic [0:0]   usie;
   } csr_mie_reg_type;
 
-  parameter csr_mie_reg_type init_csr_mie_reg = '{
+  localparam csr_mie_reg_type init_csr_mie_reg = '{
       meie : 0,
       seie : 0,
       ueie : 0,
@@ -618,7 +618,7 @@ package wires;
     logic [0:0]   uie;
   } csr_mstatus_reg_type;
 
-  parameter csr_mstatus_reg_type init_csr_mstatus_reg = '{
+  localparam csr_mstatus_reg_type init_csr_mstatus_reg = '{
       sd : 0,
       tsr : 0,
       tw : 0,
@@ -655,7 +655,7 @@ package wires;
     logic [15 : 0][31:0] pmpaddr;
   } csr_machine_reg_type;
 
-  parameter csr_machine_reg_type init_csr_machine_reg = '{
+  localparam csr_machine_reg_type init_csr_machine_reg = '{
       mstatus : init_csr_mstatus_reg,
       mtvec : 0,
       mscratch : 0,
