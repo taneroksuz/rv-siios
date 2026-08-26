@@ -7,45 +7,45 @@ module predecoder (
 );
   timeunit 1ns; timeprecision 1ps;
 
-  logic [31 : 0] instr;
+  logic [31:0] instr;
 
-  logic [31 : 0] imm_i;
-  logic [31 : 0] imm_s;
-  logic [31 : 0] imm_b;
-  logic [31 : 0] imm_j;
-  logic [31 : 0] imm_u;
-  logic [31 : 0] imm;
+  logic [31:0] imm_i;
+  logic [31:0] imm_s;
+  logic [31:0] imm_b;
+  logic [31:0] imm_j;
+  logic [31:0] imm_u;
+  logic [31:0] imm;
 
-  logic [6 : 0] opcode;
-  logic [2 : 0] funct3;
+  logic [6:0] opcode;
+  logic [2:0] funct3;
 
-  logic [ 4 : 0] waddr;
-  logic [ 4 : 0] raddr1;
-  logic [11 : 0] caddr;
+  logic [ 4:0] waddr;
+  logic [ 4:0] raddr1;
+  logic [11:0] caddr;
 
-  logic [0 : 0] wren;
-  logic [0 : 0] rden1;
-  logic [0 : 0] rden2;
+  logic [0:0] wren;
+  logic [0:0] rden1;
+  logic [0:0] rden2;
 
-  logic [0 : 0] auipc;
-  logic [0 : 0] jal;
-  logic [0 : 0] jalr;
-  logic [0 : 0] branch;
-  logic [0 : 0] load;
-  logic [0 : 0] store;
-  logic [0 : 0] valid;
+  logic [0:0] auipc;
+  logic [0:0] jal;
+  logic [0:0] jalr;
+  logic [0:0] branch;
+  logic [0:0] load;
+  logic [0:0] store;
+  logic [0:0] valid;
 
   bcu_op_type bcu_op;
   lsu_op_type lsu_op;
 
-  logic [0 : 0] nonzero_waddr;
-  logic [0 : 0] nonzero_raddr1;
+  logic [0:0] nonzero_waddr;
+  logic [0:0] nonzero_raddr1;
 
-  logic [0 : 0] nonzero_imm_i;
-  logic [0 : 0] nonzero_imm_s;
-  logic [0 : 0] nonzero_imm_b;
-  logic [0 : 0] nonzero_imm_j;
-  logic [0 : 0] nonzero_imm_u;
+  logic [0:0] nonzero_imm_i;
+  logic [0:0] nonzero_imm_s;
+  logic [0:0] nonzero_imm_b;
+  logic [0:0] nonzero_imm_j;
+  logic [0:0] nonzero_imm_u;
 
   always_comb begin
 

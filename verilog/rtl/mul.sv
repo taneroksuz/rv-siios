@@ -63,7 +63,8 @@ module mul #(
             end
             if (mul_in.enable == 0) begin
               v.counter = 0;
-            end else if (mul_in.enable == 1) begin
+            end
+            else if (mul_in.enable == 1) begin
               v.counter = v.counter + 1;
             end
             mul_out.result = 0;
@@ -78,7 +79,8 @@ module mul #(
             v.counter = 0;
             if (v.op.muls == 1) begin
               mul_out.result = v.result[31:0];
-            end else if (v.op.mulh == 1 | v.op.mulhsu == 1 | v.op.mulhu == 1) begin
+            end
+            else if (v.op.mulh == 1 | v.op.mulhsu == 1 | v.op.mulhu == 1) begin
               mul_out.result = v.result[63:32];
             end
             mul_out.ready = 1;
@@ -103,13 +105,15 @@ module mul #(
       always_ff @(posedge clock) begin
         if (reset == 0) begin
           r <= init_mul_reg;
-        end else begin
+        end
+        else begin
           r <= rin;
         end
 
       end
 
-    end else if (MUL_PERFORMANCE == 1) begin
+    end
+    else if (MUL_PERFORMANCE == 1) begin
 
       always_comb begin
 
@@ -127,7 +131,8 @@ module mul #(
         result = op1 * op2;
         if (op.muls == 1) begin
           mul_out.result = result[31:0];
-        end else begin
+        end
+        else begin
           mul_out.result = result[63:32];
         end
         mul_out.ready = mul_in.enable;

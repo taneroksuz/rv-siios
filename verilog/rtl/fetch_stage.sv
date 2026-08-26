@@ -58,11 +58,13 @@ module fetch_stage (
         if (v.ready == 1) begin
           v.state = BUSY;
           v.valid = 1;
-        end else if (v.spec == 1) begin
+        end
+        else if (v.spec == 1) begin
           v.state = INVALID;
           v.valid = 0;
           v.stall = 1;
-        end else begin
+        end
+        else begin
           v.state = BUSY;
           v.valid = 0;
           v.stall = 1;
@@ -74,7 +76,8 @@ module fetch_stage (
           v.ready = 0;
           v.valid = 1;
           v.stall = 1;
-        end else begin
+        end
+        else begin
           v.state = INVALID;
           v.ready = 0;
           v.valid = 0;
@@ -87,15 +90,20 @@ module fetch_stage (
 
     if (clear == 1) begin
       v.addr = 0;
-    end else if (csr_out.trap == 1) begin
+    end
+    else if (csr_out.trap == 1) begin
       v.addr = csr_out.mtvec;
-    end else if (csr_out.mret == 1) begin
+    end
+    else if (csr_out.mret == 1) begin
       v.addr = csr_out.mepc;
-    end else if (d.f.instr.op.jump == 1) begin
+    end
+    else if (d.f.instr.op.jump == 1) begin
       v.addr = d.f.instr.address;
-    end else if (a.e.instr.op.fence == 1) begin
+    end
+    else if (a.e.instr.op.fence == 1) begin
       v.addr = a.e.instr.npc;
-    end else if (v.stall == 0) begin
+    end
+    else if (v.stall == 0) begin
       v.addr = v.addr + 4;
     end
 
@@ -227,12 +235,15 @@ module fetch_stage (
       if (v.instr.op.load == 1) begin
         v.instr.op.load = 0;
         v.instr.op.wren = 0;
-      end else if (v.instr.op.store == 1) begin
+      end
+      else if (v.instr.op.store == 1) begin
         v.instr.op.store = 0;
-      end else if (v.instr.op.jump == 1) begin
+      end
+      else if (v.instr.op.jump == 1) begin
         v.instr.op.jump = 0;
         v.instr.op.wren = 0;
-      end else begin
+      end
+      else begin
         v.instr.op.exception = 0;
       end
     end
@@ -245,10 +256,9 @@ module fetch_stage (
 
     dmem_in.mem_valid = v.instr.op.load | v.instr.op.store;
     dmem_in.mem_instr = 0;
-    dmem_in.mem_mode = v.mode;
-    dmem_in.mem_addr = v.instr.address;
-    dmem_in.mem_wdata = store_data(v.instr.sdata, v.instr.lsu_op.lsu_sb, v.instr.lsu_op.lsu_sh,
-                                   v.instr.lsu_op.lsu_sw);
+    dmem_in.mem_mode  = v.mode;
+    dmem_in.mem_addr  = v.instr.address;
+    dmem_in.mem_wdata = store_data(v.instr.sdata, v.instr.lsu_op.lsu_sb, v.instr.lsu_op.lsu_sh, v.instr.lsu_op.lsu_sw);
     dmem_in.mem_wstrb = (v.instr.op.load == 1) ? 4'h0 : v.instr.byteenable;
 
     rin = v;
@@ -265,7 +275,8 @@ module fetch_stage (
   always_ff @(posedge clock) begin
     if (reset == 0) begin
       r <= init_fetch_reg;
-    end else begin
+    end
+    else begin
       r <= rin;
     end
   end

@@ -13,9 +13,9 @@ module arbiter (
 );
   timeunit 1ns; timeprecision 1ps;
 
-  localparam [1:0] no_access = 0;
+  localparam [1:0] no_access    = 0;
   localparam [1:0] instr_access = 1;
-  localparam [1:0] data_access = 2;
+  localparam [1:0] data_access  = 2;
 
   typedef struct packed {
     logic [1:0] access_type;
@@ -53,7 +53,8 @@ module arbiter (
         v.access_type = data_access;
         v.mem_in      = v.dmem_in;
         v.dmem_in     = init_mem_in;
-      end else if (v.imem_in.mem_valid == 1) begin
+      end
+      else if (v.imem_in.mem_valid == 1) begin
         v.access_type = instr_access;
         v.mem_in      = v.imem_in;
         v.imem_in     = init_mem_in;
@@ -72,7 +73,8 @@ module arbiter (
   always_ff @(posedge clock) begin
     if (reset == 0) begin
       r <= init_reg;
-    end else begin
+    end
+    else begin
       r <= rin;
     end
   end

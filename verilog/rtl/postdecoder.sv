@@ -7,40 +7,40 @@ module postdecoder (
 );
   timeunit 1ns; timeprecision 1ps;
 
-  logic [31 : 0] instr;
-  logic [31 : 0] mcounteren;
-  logic [ 1 : 0] mode;
+  logic [31:0] instr;
+  logic [31:0] mcounteren;
+  logic [ 1:0] mode;
 
-  logic [31 : 0] imm_c;
-  logic [31 : 0] imm_i;
-  logic [31 : 0] imm_u;
-  logic [31 : 0] imm;
+  logic [31:0] imm_c;
+  logic [31:0] imm_i;
+  logic [31:0] imm_u;
+  logic [31:0] imm;
 
-  logic [6 : 0] opcode;
-  logic [2 : 0] funct3;
+  logic [6:0] opcode;
+  logic [2:0] funct3;
 
-  logic [ 4 : 0] waddr;
-  logic [ 4 : 0] raddr1;
-  logic [11 : 0] caddr;
+  logic [ 4:0] waddr;
+  logic [ 4:0] raddr1;
+  logic [11:0] caddr;
 
-  logic [0 : 0] wren;
-  logic [0 : 0] rden1;
-  logic [0 : 0] rden2;
+  logic [0:0] wren;
+  logic [0:0] rden1;
+  logic [0:0] rden2;
 
-  logic [0 : 0] cwren;
-  logic [0 : 0] crden;
+  logic [0:0] cwren;
+  logic [0:0] crden;
 
-  logic [0 : 0] lui;
-  logic [0 : 0] nop;
-  logic [0 : 0] csreg;
-  logic [0 : 0] division;
-  logic [0 : 0] mult;
-  logic [0 : 0] ecall;
-  logic [0 : 0] ebreak;
-  logic [0 : 0] mret;
-  logic [0 : 0] fence;
-  logic [0 : 0] wfi;
-  logic [0 : 0] valid;
+  logic [0:0] lui;
+  logic [0:0] nop;
+  logic [0:0] csreg;
+  logic [0:0] division;
+  logic [0:0] mult;
+  logic [0:0] ecall;
+  logic [0:0] ebreak;
+  logic [0:0] mret;
+  logic [0:0] fence;
+  logic [0:0] wfi;
+  logic [0:0] valid;
 
   alu_op_type alu_op;
   csr_op_type csr_op;
@@ -48,12 +48,12 @@ module postdecoder (
   div_op_type div_op;
   mul_op_type mul_op;
 
-  logic [0 : 0] nonzero_waddr;
-  logic [0 : 0] nonzero_raddr1;
+  logic [0:0] nonzero_waddr;
+  logic [0:0] nonzero_raddr1;
 
-  logic [0 : 0] nonzero_imm_c;
-  logic [0 : 0] nonzero_imm_i;
-  logic [0 : 0] nonzero_imm_u;
+  logic [0:0] nonzero_imm_c;
+  logic [0:0] nonzero_imm_i;
+  logic [0:0] nonzero_imm_u;
 
   always_comb begin
 
@@ -185,7 +185,8 @@ module postdecoder (
               valid = 0;
             end
           endcase
-        end else if (instr[25] == 1) begin
+        end
+        else if (instr[25] == 1) begin
           case (funct3)
             funct_mul: begin
               mult        = 1;
@@ -233,40 +234,46 @@ module postdecoder (
             csr_wfi:    wfi = 1;
             default:    valid = 0;
           endcase
-        end else if (funct3 == 1) begin
+        end
+        else if (funct3 == 1) begin
           wren         = nonzero_waddr;
           rden1        = 1;
           cwren        = 1;
           crden        = nonzero_waddr;
           csr_op.csrrw = 1;
           csreg        = 1;
-        end else if (funct3 == 2) begin
+        end
+        else if (funct3 == 2) begin
           wren         = nonzero_waddr;
           rden1        = 1;
           cwren        = nonzero_raddr1;
           crden        = 1;
           csr_op.csrrs = 1;
           csreg        = 1;
-        end else if (funct3 == 3) begin
+        end
+        else if (funct3 == 3) begin
           wren         = nonzero_waddr;
           rden1        = 1;
           cwren        = nonzero_raddr1;
           crden        = 1;
           csr_op.csrrc = 1;
           csreg        = 1;
-        end else if (funct3 == 5) begin
+        end
+        else if (funct3 == 5) begin
           wren          = nonzero_waddr;
           cwren         = 1;
           crden         = nonzero_waddr;
           csr_op.csrrwi = 1;
           csreg         = 1;
-        end else if (funct3 == 6) begin
+        end
+        else if (funct3 == 6) begin
           wren          = nonzero_waddr;
           cwren         = nonzero_imm_c;
           crden         = 1;
           csr_op.csrrsi = 1;
           csreg         = 1;
-        end else if (funct3 == 7) begin
+        end
+        else if (funct3 == 7) begin
           wren          = nonzero_waddr;
           cwren         = nonzero_imm_c;
           crden         = 1;
@@ -277,7 +284,8 @@ module postdecoder (
       opcode_fence: begin
         if (funct3 == 0) begin
           fence = 1;
-        end else if (funct3 == 1) begin
+        end
+        else if (funct3 == 1) begin
           fence = 1;
         end
       end
@@ -290,10 +298,10 @@ module postdecoder (
     end
 
     if (csreg == 1) begin
-      if (mode < caddr[9:8] && caddr[11:8] == 4'hB && caddr[6:5] == 0 &&
-          mcounteren[caddr[4:0]] == 0) begin
+      if (mode < caddr[9:8] && caddr[11:8] == 4'hB && caddr[6:5] == 0 && mcounteren[caddr[4:0]] == 0) begin
         valid = 0;
-      end else if (mode < caddr[9:8]) begin
+      end
+      else if (mode < caddr[9:8]) begin
         valid = 0;
       end
     end

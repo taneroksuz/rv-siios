@@ -22,12 +22,13 @@ module csr (
   logic [7:0] cause = 0;
   logic [0:0] mret = 0;
 
-  logic [63 : 0] incr;
+  logic [63:0] incr;
 
   always_comb begin
     if (csr_in.valid == 1) begin
       incr = 1;
-    end else begin
+    end
+    else begin
       incr = 0;
     end
   end
@@ -129,7 +130,8 @@ module csr (
         csr_pmpaddr15: csr_out.crdata = csr_machine_reg.pmpaddr[15];
         default: csr_out.crdata = 0;
       endcase
-    end else begin
+    end
+    else begin
       csr_out.crdata = 0;
     end
 
@@ -141,7 +143,8 @@ module csr (
     csr_out.mcounteren = csr_machine_reg.mcounteren;
     if (csr_machine_reg.mtvec[1:0] == 1 && csr_machine_reg.mcause[31] == 1) begin
       csr_out.mtvec = {(csr_machine_reg.mtvec[31:2] + {26'b0, csr_machine_reg.mcause[3:0]}), 2'b0};
-    end else begin
+    end
+    else begin
       csr_out.mtvec = {csr_machine_reg.mtvec[31:2], 2'b0};
     end
 
@@ -156,7 +159,8 @@ module csr (
       interrupt       <= 0;
       cause           <= 0;
       mret            <= 0;
-    end else begin
+    end
+    else begin
       if (csr_in.cwren == 1) begin
         case (csr_in.cwaddr)
           csr_mstatus: begin
@@ -232,7 +236,8 @@ module csr (
           csr_pmpaddr15:     csr_machine_reg.pmpaddr[15] <= csr_in.cwdata;
           default:           ;
         endcase
-      end else begin
+      end
+      else begin
         csr_machine_reg.minstret <= csr_machine_reg.minstret + incr;
       end
 
@@ -243,21 +248,24 @@ module csr (
       if (meip == 1) begin
         csr_machine_reg.mip.meip <= 1;
         cause                    <= interrupt_mach_extern;
-      end else begin
+      end
+      else begin
         csr_machine_reg.mip.meip <= 0;
       end
 
       if (mtip == 1) begin
         csr_machine_reg.mip.mtip <= 1;
         cause                    <= interrupt_mach_timer;
-      end else begin
+      end
+      else begin
         csr_machine_reg.mip.mtip <= 0;
       end
 
       if (msip == 1) begin
         csr_machine_reg.mip.msip <= 1;
         cause                    <= interrupt_mach_soft;
-      end else begin
+      end
+      else begin
         csr_machine_reg.mip.msip <= 0;
       end
 
@@ -273,8 +281,9 @@ module csr (
         csr_machine_reg.mtval        <= csr_in.etval;
         csr_machine_reg.mcause       <= {24'b0, csr_in.ecause};
         exception                    <= 1;
-      end else if (csr_machine_reg.mstatus.mie == 1 && csr_machine_reg.mie.meie == 1 &&
-                   csr_machine_reg.mip.meip == 1 && csr_in.valid == 1) begin
+      end
+      else if (csr_machine_reg.mstatus.mie == 1 && csr_machine_reg.mie.meie == 1 && csr_machine_reg.mip.meip == 1 &&
+               csr_in.valid == 1) begin
         csr_machine_reg.mstatus.mpie <= csr_machine_reg.mstatus.mie;
         csr_machine_reg.mstatus.mie  <= 0;
         csr_machine_reg.mstatus.mpp  <= mode;
@@ -283,8 +292,9 @@ module csr (
         csr_machine_reg.mtval        <= csr_in.etval;
         csr_machine_reg.mcause       <= {1'b1, 23'b0, cause};
         interrupt                    <= 1;
-      end else if (csr_machine_reg.mstatus.mie == 1 && csr_machine_reg.mie.mtie == 1 &&
-                   csr_machine_reg.mip.mtip == 1 && csr_in.valid == 1) begin
+      end
+      else if (csr_machine_reg.mstatus.mie == 1 && csr_machine_reg.mie.mtie == 1 && csr_machine_reg.mip.mtip == 1 &&
+               csr_in.valid == 1) begin
         csr_machine_reg.mstatus.mpie <= csr_machine_reg.mstatus.mie;
         csr_machine_reg.mstatus.mie  <= 0;
         csr_machine_reg.mstatus.mpp  <= mode;
@@ -293,8 +303,9 @@ module csr (
         csr_machine_reg.mtval        <= csr_in.etval;
         csr_machine_reg.mcause       <= {1'b1, 23'b0, cause};
         interrupt                    <= 1;
-      end else if (csr_machine_reg.mstatus.mie == 1 && csr_machine_reg.mie.msie == 1 &&
-                   csr_machine_reg.mip.msip == 1 && csr_in.valid == 1) begin
+      end
+      else if (csr_machine_reg.mstatus.mie == 1 && csr_machine_reg.mie.msie == 1 && csr_machine_reg.mip.msip == 1 &&
+               csr_in.valid == 1) begin
         csr_machine_reg.mstatus.mpie <= csr_machine_reg.mstatus.mie;
         csr_machine_reg.mstatus.mie  <= 0;
         csr_machine_reg.mstatus.mpp  <= mode;

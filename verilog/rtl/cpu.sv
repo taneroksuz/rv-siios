@@ -2,17 +2,17 @@ import configure::*;
 import wires::*;
 
 module cpu (
-  input  logic                 reset,
-  input  logic                 clear,
-  input  logic                 clock,
-  input  mem_out_type          imemory_out,
-  output mem_in_type           imemory_in,
-  input  mem_out_type          dmemory_out,
-  output mem_in_type           dmemory_in,
-  input  logic        [ 0 : 0] meip,
-  input  logic        [ 0 : 0] msip,
-  input  logic        [ 0 : 0] mtip,
-  input  logic        [63 : 0] mtime
+  input  logic               reset,
+  input  logic               clear,
+  input  logic               clock,
+  input  mem_out_type        imemory_out,
+  output mem_in_type         imemory_in,
+  input  mem_out_type        dmemory_out,
+  output mem_in_type         dmemory_in,
+  input  logic        [ 0:0] meip,
+  input  logic        [ 0:0] msip,
+  input  logic        [ 0:0] mtip,
+  input  logic        [63:0] mtime
 );
   timeunit 1ns; timeprecision 1ps;
 

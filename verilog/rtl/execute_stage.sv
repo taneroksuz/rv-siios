@@ -112,11 +112,13 @@ module execute_stage (
       v.instr.op.exception = 1;
       v.instr.ecause       = except_illegal_instruction;
       v.instr.etval        = v.instr.instr;
-    end else if (v.instr.op.ebreak == 1) begin
+    end
+    else if (v.instr.op.ebreak == 1) begin
       v.instr.op.exception = 1;
       v.instr.ecause       = except_breakpoint;
       v.instr.etval        = v.instr.instr;
-    end else if (v.instr.op.ecall == 1) begin
+    end
+    else if (v.instr.op.ecall == 1) begin
       v.instr.op.exception = 1;
       v.instr.ecause       = except_env_call_mach;
       v.instr.etval        = v.instr.instr;
@@ -171,23 +173,30 @@ module execute_stage (
 
     if (v.instr.op.auipc == 1) begin
       v.instr.wdata = v.instr.address;
-    end else if (v.instr.op.lui == 1) begin
+    end
+    else if (v.instr.op.lui == 1) begin
       v.instr.wdata = v.instr.imm;
-    end else if (v.instr.op.jal == 1) begin
+    end
+    else if (v.instr.op.jal == 1) begin
       v.instr.wdata = v.instr.npc;
-    end else if (v.instr.op.jalr == 1) begin
+    end
+    else if (v.instr.op.jalr == 1) begin
       v.instr.wdata = v.instr.npc;
-    end else if (v.instr.op.crden == 1) begin
+    end
+    else if (v.instr.op.crden == 1) begin
       v.instr.wdata = v.instr.crdata;
-    end else if (v.instr.op.mult == 1) begin
+    end
+    else if (v.instr.op.mult == 1) begin
       v.instr.wdata = v.instr.mdata;
-    end else if (v.instr.op.division == 1) begin
+    end
+    else if (v.instr.op.division == 1) begin
       v.instr.wdata = v.instr.ddata;
     end
 
     if (v.instr.op.mult == 1) begin
       v.stall = ~v.instr.mready;
-    end else if (v.instr.op.division == 1) begin
+    end
+    else if (v.instr.op.division == 1) begin
       v.stall = ~v.instr.dready;
     end
 
@@ -195,15 +204,16 @@ module execute_stage (
       v.instr.wdata = v.instr.ldata;
       v.miss        = dmem_out.mem_error;
       v.stall       = ~dmem_out.mem_ready;
-    end else if (v.instr.op.store == 1) begin
+    end
+    else if (v.instr.op.store == 1) begin
       v.miss  = dmem_out.mem_error;
       v.stall = ~dmem_out.mem_ready;
     end
 
     if (v.miss == 1) begin
       v.instr.op.exception = 1;
-      v.instr.ecause = v.instr.op.load == 1 ? except_load_access_fault : except_store_access_fault;
-      v.instr.etval = r.instr.address;
+      v.instr.ecause       = v.instr.op.load == 1 ? except_load_access_fault : except_store_access_fault;
+      v.instr.etval        = r.instr.address;
     end
 
     v.instr.op_b = v.instr.op;
@@ -248,7 +258,8 @@ module execute_stage (
   always_ff @(posedge clock) begin
     if (reset == 0) begin
       r <= init_execute_reg;
-    end else begin
+    end
+    else begin
       r <= rin;
     end
   end

@@ -51,13 +51,13 @@ module buffer_reg (
   end
 
   always_comb begin
-    buffer_reg_out.rdata0 = (buffer_reg_in.wen0 == 1 && buffer_reg_in.raddr0 == buffer_reg_in.waddr0
-        ) ? buffer_reg_in.wdata0 : buffer_reg_array0[buffer_reg_in.raddr0];
+    buffer_reg_out.rdata0 = (buffer_reg_in.wen0 == 1 && buffer_reg_in.raddr0 == buffer_reg_in.waddr0) ?
+        buffer_reg_in.wdata0 : buffer_reg_array0[buffer_reg_in.raddr0];
   end
 
   always_comb begin
-    buffer_reg_out.rdata1 = (buffer_reg_in.wen1 == 1 && buffer_reg_in.raddr1 == buffer_reg_in.waddr1
-        ) ? buffer_reg_in.wdata1 : buffer_reg_array1[buffer_reg_in.raddr1];
+    buffer_reg_out.rdata1 = (buffer_reg_in.wen1 == 1 && buffer_reg_in.raddr1 == buffer_reg_in.waddr1) ?
+        buffer_reg_in.wdata1 : buffer_reg_array1[buffer_reg_in.raddr1];
   end
 
 endmodule
@@ -72,7 +72,7 @@ module buffer_ctrl (
 );
   timeunit 1ns; timeprecision 1ps;
 
-  localparam W = BDEPTH + 1;
+  localparam W     = BDEPTH + 1;
   localparam TOTAL = 2 * (BUFFER_DEPTH - 2);
 
   typedef struct packed {
@@ -171,7 +171,8 @@ module buffer_ctrl (
     if (v.rid_bank == 1) begin
       v.rdata0 = buffer_reg_out.rdata1;
       v.rdata1 = buffer_reg_out.rdata0;
-    end else begin
+    end
+    else begin
       v.rdata0 = buffer_reg_out.rdata0;
       v.rdata1 = buffer_reg_out.rdata1;
     end
@@ -198,7 +199,8 @@ module buffer_ctrl (
         v.ready = 1;
         v.diff  = W'(1);
       end
-    end else begin
+    end
+    else begin
       if (v.count > v.align + W'(1)) begin
         v.pc    = v.pc_base;
         v.instr = {v.rdata1[15:0], v.rdata0[15:0]};
@@ -220,7 +222,8 @@ module buffer_ctrl (
 
     if (v.count > TOTAL) begin
       v.stall = 1;
-    end else begin
+    end
+    else begin
       v.stall = 0;
     end
 
@@ -237,7 +240,8 @@ module buffer_ctrl (
   always_ff @(posedge clock) begin
     if (reset == 0) begin
       r <= init_reg;
-    end else begin
+    end
+    else begin
       r <= rin;
     end
   end
