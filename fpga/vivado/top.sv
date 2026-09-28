@@ -102,12 +102,12 @@ module top (
 
   assign LED = REG_LED;
 
-  dram dram_comp (
+  ddr2 dram_comp (
     .reset_cpu    (RESET),
     .clock_cpu    (CLOCK_CPU),
     .clock_ddr    (CLOCK_DDR),
-    .dram_in      (dram_in),
-    .dram_out     (dram_out),
+    .ddr2_in      (dram_in),
+    .ddr2_out     (dram_out),
     .ddr2_addr    (ddr2_addr),
     .ddr2_ba      (ddr2_ba),
     .ddr2_ras_n   (ddr2_ras_n),

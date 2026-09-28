@@ -45,4 +45,11 @@ package configure;
   localparam CLK_DIVIDER_RTC = CPU_FREQ / RTC_FREQ;
   localparam CLK_DIVIDER_BIT = CPU_FREQ / BAUDRATE;
 
+  localparam DDR2_REF_FREQ = 200000000;  // 200MHz
+  localparam DDR2_MEM_FREQ = 125000000;  // 125MHz
+
+  localparam DDR2_CLK_MULT   = 5;
+  localparam DDR2_CLK_DIVIDE = 8;
+  localparam DDR2_PHASE_STEP = 56;
+
 endpackage
